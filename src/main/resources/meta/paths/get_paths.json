@@ -1,0 +1,1235 @@
+{
+  "/arcanum-student.css": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "user"
+    ],
+    "context": "css",
+    "access_level": "student"
+  },
+  "/arcanum-login-background.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-logo.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-stamp.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-coin.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-01-mut.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-02-neugier.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-03-lernen.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-04-zusammenhalt.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-05-dranbleiben.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-06-selbstvertrauen.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-07-fragen.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-08-ideen.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-09-abenteuer.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-10-entdeckerweisheit.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-11-geduld.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-12-hilfsbereitschaft.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-13-verantwortung.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-14-konzentration.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-15-hoffnung.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-16-zielstrebigkeit.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-17-freundschaft.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-18-achtsamkeit.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-19-ausprobieren.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-20-gemeinschaft.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-21-lernen-weiter.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-22-team.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-23-durchhalten.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-24-an-dich-glauben.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-25-aus-fehlern-lernen.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-26-neugier-ideen.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-27-ideen-teilen.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-28-nicht-aufgeben.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-29-ziele.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-30-achtsamkeit-offene-sinne.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-student-theme.css": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "user"
+    ],
+    "context": "css",
+    "access_level": "student"
+  },
+  "/arcanum-dashboard-background.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-neutral-avatar.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-01.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-02.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-03.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-04.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-05.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-06.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-07.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-08.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-09.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-10.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-11.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-12.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-13.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-14.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-15.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-16.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-17.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-18.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-19.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-20.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-21.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-22.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-23.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-24.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-25.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-26.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-27.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-28.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-29.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-30.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-31.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-32.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-33.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-34.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-35.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-36.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-37.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-38.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-39.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-40.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-41.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-42.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-43.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-44.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-45.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-46.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-47.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-48.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-49.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-50.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-51.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-52.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-53.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-54.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-55.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-56.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-57.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-58.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-59.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-avatar-60.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "dashboard"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-logout.html": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "public"
+    ],
+    "context": "html",
+    "access_level": "public"
+  },
+  "/arcanum-logout.css": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "public"
+    ],
+    "context": "css",
+    "access_level": "public"
+  },
+  "/arcanum-logout.js": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "public"
+    ],
+    "context": "js",
+    "access_level": "public"
+  },
+  "/arcanum-logout-background.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "logout"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-schatzkammer-tuer.png": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-coin-a5c34f85b21b75d5.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-01-mut-666eba92dbcb31bf.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-02-neugier-1ada1180b0899f37.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-03-lernen-ec624e15d348ee52.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-04-zusammenhalt-14cee52917508b14.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-05-dranbleiben-600e7ad17aac285a.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-06-selbstvertrauen-89afad4bc2fcc846.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-07-fragen-67c3fddee5ea1b18.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-08-ideen-8434eb7d8e061113.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-09-abenteuer-3097f180350bb653.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-10-entdeckerweisheit-b6c16f82437c8f81.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-11-geduld-8867426ace1b6189.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-12-hilfsbereitschaft-8447ca0949298f17.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-13-verantwortung-372dba4954b72e7f.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-14-konzentration-812d1aafa58a822e.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-15-hoffnung-690e2d92b9a29c16.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-16-zielstrebigkeit-b79f702a4d2e6111.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-17-freundschaft-01870f9f1f7bf95d.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-18-achtsamkeit-91c2d3a9cab09331.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-19-ausprobieren-e26069a70fa83edc.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-20-gemeinschaft-645863d2c42081c0.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-21-lernen-weiter-66495461876a48e3.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-22-team-78d41540304c6999.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-23-durchhalten-ed9c17502eea474c.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-24-an-dich-glauben-362d1d14fb78ad55.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-25-aus-fehlern-lernen-a103fdf14cabde31.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-26-neugier-ideen-6068bdab99f814c2.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-27-ideen-teilen-b8d346d021d7c5c4.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-28-nicht-aufgeben-d7991689c52db202.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-29-ziele-65a44584b12943e7.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-inspiration-30-achtsamkeit-offene-sinne-5749367e4be785cf.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "inspiration"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-login-background-3d41c61567504c9b.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-logo-b674493ab1b01691.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  },
+  "/arcanum-stamp-b5ab61fed492b500.webp": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "login"
+    ],
+    "context": "imgs",
+    "access_level": "public"
+  }
+}
