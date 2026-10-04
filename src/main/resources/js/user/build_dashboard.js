@@ -796,87 +796,6 @@ function ensureTaskDetailsDialog() {
 
 
 async function fetchOpenTasksForSubject(subject) {
-    const student = await getArcanumCurrentStudent();
-
-    const studentId = extractEntityId(student?.id);
-    const subjectId = extractEntityId(subject?.id);
-
-    if (studentId === null || subjectId === null) {
-        throw new Error(
-            "Schüler- oder Fachdaten fehlen."
-        );
-    }
-
-    const topicResponse = await fetch("/current-topic", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            subjectId
-        })
-    });
-
-    if (!topicResponse.ok) {
-        throw new Error(
-            `Das aktuelle Thema konnte nicht geladen werden ` +
-            `(${topicResponse.status}).`
-        );
-    }
-
-    const topic = await topicResponse.json();
-
-    if (!topic) {
-        return {
-            topic: null,
-            tasks: []
-        };
-    }
-
-    const taskIds = [
-        ...new Set(
-            safeArray(topic.tasks)
-                .map(task => extractEntityId(task))
-                .filter(taskId => taskId !== null)
-        )
-    ];
-
-    if (taskIds.length === 0) {
-        return {
-            topic,
-            tasks: []
-        };
-    }
-
-    const tasksResponse = await fetch("/tasks", {
-        method: "POST",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            ids: taskIds,
-            studentId
-        })
-    });
-
-    if (!tasksResponse.ok) {
-        throw new Error(
-            `Die Etappen konnten nicht geladen werden ` +
-            `(${tasksResponse.status}).`
-        );
-    }
-
-    const payload = await tasksResponse.json();
-
-    const allTasks = Array.isArray(payload)
-        ? payload
-        : safeArray(
-            payload?.tasks ??
-            payload?.results
-        );
-
     const unavailableIds = new Set();
 
     [
@@ -891,7 +810,10 @@ async function fetchOpenTasksForSubject(subject) {
         }
     });
 
-    const tasks = allTasks
+    const tasks = [
+        ...safeArray(subject?.catalog?.centralTasks),
+        ...safeArray(subject?.catalog?.flexibleTasks)
+    ]
         .filter(task => {
             const taskId = extractEntityId(
                 task?.id ?? task
@@ -899,21 +821,22 @@ async function fetchOpenTasksForSubject(subject) {
 
             return (
                 taskId !== null &&
+                task?.active === true &&
+                task?.completed !== true &&
                 !unavailableIds.has(taskId)
             );
         })
         .map(task => ({
             ...task,
-            topic: (
-                task?.topic &&
-                typeof task.topic === "object"
+            topic: task?.topic || (
+                task?.topicId != null
+                    ? {id: task.topicId, name: task.topicName}
+                    : null
             )
-                ? task.topic
-                : topic
         }));
 
     return {
-        topic,
+        topic: subject?.currentTopic || null,
         tasks
     };
 }
@@ -940,7 +863,7 @@ async function openAvailableTaskDetails(subject) {
     title.textContent = `${subject.name} · Offen`;
 
     subtitle.textContent =
-        "Noch nicht begonnene Etappen des aktuellen Themas.";
+        "Freigegebene, noch nicht begonnene Etappen dieses Fachs.";
 
     summary.textContent =
         "Offene Etappen werden geladen …";
@@ -971,7 +894,7 @@ async function openAvailableTaskDetails(subject) {
         if (result.tasks.length === 0) {
             summary.textContent = topicName
                 ? `Keine offene Etappe im Thema „${topicName}“.`
-                : "Für dieses Fach ist kein aktuelles Thema festgelegt.";
+                : "Für dieses Fach sind derzeit keine freigegebenen Etappen vorhanden.";
 
             content.innerHTML = `
                 <div class="arcanum-task-dialog__empty">
@@ -981,8 +904,8 @@ async function openAvailableTaskDetails(subject) {
                                 ? "Alle Etappen dieses Themas wurden " +
                                   "bereits begonnen, bestanden oder " +
                                   "gesperrt."
-                                : "Die Lehrkraft hat noch kein " +
-                                  "aktuelles Thema festgelegt."
+                                : "Die Lehrkraft hat noch keine Etappe " +
+                                  "für dieses Fach freigegeben."
                         }
                     </p>
                 </div>
@@ -1028,7 +951,8 @@ async function openAvailableTaskDetails(subject) {
 async function changeStudentTaskStatus(
     action,
     taskId,
-    button
+    button,
+    kind = "central"
 ) {
     const student = await getArcanumCurrentStudent();
     const studentId = extractEntityId(student?.id);
@@ -1039,9 +963,9 @@ async function changeStudentTaskStatus(
         );
     }
 
-    const endpoint = action === "begin"
-        ? "/begin-task"
-        : "/cancel-task";
+    const endpoint = kind === "flexible"
+        ? (action === "begin" ? "/begin-flexible-task" : "/cancel-flexible-task")
+        : (action === "begin" ? "/begin-task" : "/cancel-task");
 
     const response = await fetch(endpoint, {
         method: "POST",
@@ -1084,6 +1008,7 @@ async function handleTaskActionClick(event) {
 
     const action = button.dataset.taskAction;
     const taskId = Number(button.dataset.taskId);
+    const kind = button.dataset.taskKind || "central";
 
     if (
         !["begin", "cancel"].includes(action) ||
@@ -1113,7 +1038,8 @@ async function handleTaskActionClick(event) {
         await changeStudentTaskStatus(
             action,
             taskId,
-            button
+            button,
+            kind
         );
     } catch (error) {
         console.error(
@@ -1265,6 +1191,7 @@ function createTaskDetailRowHtml(task, status) {
                        arcanum-task-action-button--begin"
                 data-task-action="begin"
                 data-task-id="${taskId}"
+                data-task-kind="${task?.kind || "central"}"
             >
                 Etappe beginnen
             </button>
@@ -1279,6 +1206,7 @@ function createTaskDetailRowHtml(task, status) {
                        arcanum-task-action-button--cancel"
                 data-task-action="cancel"
                 data-task-id="${taskId}"
+                data-task-kind="${task?.kind || "central"}"
             >
                 Etappe abbrechen
             </button>
