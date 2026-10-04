@@ -1545,18 +1545,14 @@ async function loadPartnerMatches(subject, card) {
         const student = await getArcanumCurrentStudent();
 
         const studentId = extractEntityId(student?.id);
-        const classId = getStudentClassId(student);
         const subjectId = extractEntityId(subject?.id);
-        const topicId = getSubjectTopicId(subject);
 
         if (
             studentId === null ||
-            classId === null ||
-            subjectId === null ||
-            topicId === null
+            subjectId === null
         ) {
             throw new Error(
-                "Schüler-, Klassen-, Fach- oder Themendaten fehlen."
+                "Schüler- oder Fachdaten fehlen."
             );
         }
 
@@ -1567,10 +1563,7 @@ async function loadPartnerMatches(subject, card) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                studentId,
-                classId,
-                subjectId,
-                topicId
+                subjectId
             })
         });
 
