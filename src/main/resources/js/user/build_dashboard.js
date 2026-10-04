@@ -180,9 +180,19 @@ function normalizeCurriculumCatalog(body) {
             return {...task, kind, topic:task.topicId == null ? null : {id:task.topicId,name:task.topicName}};
         });
         // Validate the transport contract; the backend totals remain authoritative.
+        // The catalog only contains released flexible stages.  Their planned
+        // coin total can therefore be larger than the visible task sum.  The
+        // central catalog exposes the hidden remainder explicitly; for
+        // flexible stages the server's planned total is the authoritative
+        // upper bound because no remainder field exists yet.
         const unreleased = kind === 'central' ? (body.planned.unreleasedCentralTokens ?? 0) : 0;
         if (!integer(unreleased)) fail();
-        if (tasks.reduce((sum, task) => sum + task.tokens, 0) + unreleased !== body.planned[kind+'Tokens'] ||
+        const visibleTokens = tasks.reduce((sum, task) => sum + task.tokens, 0);
+        const plannedTokens = body.planned[kind+'Tokens'];
+        const tokenTotalMatches = kind === 'flexible'
+            ? visibleTokens <= plannedTokens
+            : visibleTokens + unreleased === plannedTokens;
+        if (!tokenTotalMatches ||
             tasks.filter(task => task.completed).reduce((sum, task) => sum + task.tokens, 0) !== body.progress[kind+'Tokens']) fail();
     }
     return result;
