@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function performArcanumLogout() {
     const message = document.getElementById("arcanum-logout-message");
+    if (new URLSearchParams(window.location.search).get("session") === "ended") {
+        return;
+    }
 
     try {
         const response = await fetch("/logout", {
