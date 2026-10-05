@@ -74,7 +74,7 @@ test('accepts only the server-provided forecast as display data', () => {
         remainingDays: 42,
         remainingStages: 4,
         remainingCoinPotential: 32,
-        message: 'Prognose bei gleichbleibendem Arbeitstempo.'
+        message: ''
     }}));
     assert.equal(result.forecast.forecastCoins, 68);
     assert.equal(result.forecast.forecastGrade, 3);
@@ -100,4 +100,9 @@ test('formats German forecast decimals and motivating messages', () => {
     assert.match(context.forecastMotivation(3), /Das sieht gut aus/);
     assert.match(context.forecastMotivation(2), /Super/);
     assert.match(context.forecastMotivation(1), /Super/);
+});
+
+test('keeps forecast coin imagery and removes the retired forecast sentence', () => {
+    assert.match(source, /arcanum-coin\.png/);
+    assert.doesNotMatch(source, /Prognose bei gleichbleibendem Arbeitstempo/);
 });

@@ -324,8 +324,8 @@ function createSubjectCard(subject) {
     const forecast = subject.forecast || {available:false,
         message:'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'};
     const forecastDetails = forecast.available
-        ? `<span>Momentan verdienst du <mark class="arcanum-forecast-value">${formatGermanDecimal(forecast.paceCoinsPerDay)} Münzen pro Tag</mark>. Es sind noch <mark class="arcanum-forecast-value">${forecast.remainingDays} Tage</mark> bis zum Zeugnis. Damit würdest du voraussichtlich auf <mark class="arcanum-forecast-value">${forecast.forecastCoins} Münzen</mark> und die <mark class="arcanum-forecast-value">Note ${forecast.forecastGrade}</mark> kommen.</span>
-           <small>${escapeHtml(forecast.message)} ${escapeHtml(forecastMotivation(forecast.forecastGrade))}</small>`
+        ? `<span>Momentan verdienst du <mark class="arcanum-forecast-value"><img src="/arcanum-coin.png" alt="">${formatGermanDecimal(forecast.paceCoinsPerDay)}</mark> Münzen pro Tag. Es sind noch <mark class="arcanum-forecast-value">${forecast.remainingDays} Tage</mark> bis zum Zeugnis. Damit würdest du voraussichtlich auf <mark class="arcanum-forecast-value"><img src="/arcanum-coin.png" alt="">${forecast.forecastCoins}</mark> Münzen und die <mark class="arcanum-forecast-value">Note ${forecast.forecastGrade}</mark> kommen.</span>
+           <small>${escapeHtml(forecast.message || '')} ${escapeHtml(forecastMotivation(forecast.forecastGrade))}</small>`
         : `<span>Sammle noch ein paar bestätigte Etappen. Dann können wir eine Prognose für dein Zeugnis berechnen.</span>`;
 
     card.innerHTML = `
