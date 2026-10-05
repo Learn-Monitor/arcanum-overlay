@@ -18,6 +18,15 @@ function normalizer() {
     return context.normalizeCurriculumCatalog;
 }
 
+function displayHelpers() {
+    const context = { console };
+    vm.createContext(context);
+    const start = source.indexOf('function formatGermanDecimal');
+    const end = source.indexOf('function taskBelongsToSubject');
+    vm.runInContext(source.slice(start, end), context);
+    return context;
+}
+
 function catalog(overrides = {}) {
     return {
         semesterId: 1,
@@ -61,6 +70,7 @@ test('accepts only the server-provided forecast as display data', () => {
         forecastCoins: 68,
         forecastGrade: 3,
         forecastGradeLabel: 'befriedigend',
+        paceCoinsPerDay: 0.2,
         remainingDays: 42,
         remainingStages: 4,
         remainingCoinPotential: 32,
@@ -78,4 +88,16 @@ test('shows no forecast when the server withholds it', () => {
     }}));
     assert.equal(result.forecast.available, false);
     assert.match(result.forecast.message, /zu wenige bestätigte Leistungen/);
+});
+
+test('formats German forecast decimals and motivating messages', () => {
+    const context = displayHelpers();
+    assert.equal(context.formatGermanDecimal(0.2), '0,2');
+    assert.equal(context.formatGermanDecimal(2), '2');
+    assert.match(context.forecastMotivation(6), /Versuche mehr/);
+    assert.match(context.forecastMotivation(5), /Versuche mehr/);
+    assert.match(context.forecastMotivation(4), /Das sieht gut aus/);
+    assert.match(context.forecastMotivation(3), /Das sieht gut aus/);
+    assert.match(context.forecastMotivation(2), /Super/);
+    assert.match(context.forecastMotivation(1), /Super/);
 });

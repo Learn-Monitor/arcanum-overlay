@@ -203,7 +203,7 @@ function normalizeCurriculumCatalog(body) {
 function normalizeForecast(forecast) {
     const unavailable = {
         available: false,
-        message: 'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'
+        message: 'Sammle noch ein paar bestätigte Etappen. Dann können wir eine Prognose für dein Zeugnis berechnen.'
     };
     if (!forecast || typeof forecast !== 'object') return unavailable;
     const integer = value => Number.isSafeInteger(value) && value >= 0;
@@ -213,7 +213,10 @@ function normalizeForecast(forecast) {
     if (!integer(forecast.forecastCoins) || !integer(forecast.forecastGrade) ||
         forecast.forecastGrade < 1 || forecast.forecastGrade > 6 ||
         !integer(forecast.remainingDays) || !integer(forecast.remainingStages) ||
-        !integer(forecast.remainingCoinPotential) || typeof forecast.message !== 'string') return unavailable;
+        !integer(forecast.remainingCoinPotential) ||
+        typeof forecast.paceCoinsPerDay !== 'number' ||
+        !Number.isFinite(forecast.paceCoinsPerDay) || forecast.paceCoinsPerDay < 0 ||
+        typeof forecast.message !== 'string') return unavailable;
     return forecast;
 }
 
@@ -313,11 +316,9 @@ function createSubjectCard(subject) {
     const forecast = subject.forecast || {available:false,
         message:'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'};
     const forecastDetails = forecast.available
-        ? `<strong>Note ${forecast.forecastGrade} · ${escapeHtml(forecast.forecastGradeLabel || '')}</strong>
-           <span>${forecast.forecastCoins} Münzen zum Halbjahresende · ${forecast.remainingDays} verbleibende Tage</span>
-           <span>${forecast.remainingStages} verbleibende Etappen · ${forecast.remainingCoinPotential} Münzen Potenzial</span>
-           <small>${escapeHtml(forecast.message)}</small>`
-        : `<strong>Noch keine belastbare Prognose</strong><span>${escapeHtml(forecast.message)}</span>`;
+        ? `<span>🪙 Momentan verdienst du ${formatGermanDecimal(forecast.paceCoinsPerDay)} Münzen pro Tag. ⏳ Es sind noch ${forecast.remainingDays} Tage bis zum Zeugnis. Damit würdest du voraussichtlich auf ${forecast.forecastCoins} Münzen und Note ${forecast.forecastGrade} kommen.</span>
+           <small>${escapeHtml(forecast.message)} ${escapeHtml(forecastMotivation(forecast.forecastGrade))}</small>`
+        : `<span>Sammle noch ein paar bestätigte Etappen. Dann können wir eine Prognose für dein Zeugnis berechnen.</span>`;
 
     card.innerHTML = `
         <div class="arcanum-subject-card__top">
@@ -362,12 +363,11 @@ function createSubjectCard(subject) {
                 ${escapeHtml(subject.currentGrade.display)}
             </strong>
             <small class="arcanum-current-grade__note">Nur bisher verdiente Münzen; dies ist noch keine Zeugnisprognose.</small>
+            <div class="arcanum-current-grade__forecast" aria-label="Zeugnisprognose">
+                <strong>Zeugnisprognose</strong>
+                <span class="arcanum-current-grade__forecast-content">${forecastDetails}</span>
+            </div>
         </div>
-
-        <section class="arcanum-forecast" aria-label="Zeugnisprognose">
-            <span class="arcanum-forecast__label">Zeugnisprognose</span>
-            <div class="arcanum-forecast__content">${forecastDetails}</div>
-        </section>
 
         <section
             class="arcanum-subject-actions
@@ -1921,6 +1921,21 @@ function calculateGradeProgress(coins, nextGrade) {
         0,
         Math.min(100, Math.round((progressWithinRange / range) * 100))
     );
+}
+
+function formatGermanDecimal(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return "0";
+    return number.toLocaleString("de-DE", {
+        minimumFractionDigits: number % 1 === 0 ? 0 : 1,
+        maximumFractionDigits: 1
+    });
+}
+
+function forecastMotivation(grade) {
+    if (grade >= 5) return "Versuche mehr Gelingensnachweise abzulegen, du kannst es schaffen!";
+    if (grade >= 3) return "Das sieht gut aus, kannst du noch mehr schaffen?";
+    return "Super, behalte dein Tempo bei. Du machst das toll!";
 }
 
 function taskBelongsToSubject(task, subject) {
