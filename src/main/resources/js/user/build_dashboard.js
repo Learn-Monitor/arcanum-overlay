@@ -340,6 +340,7 @@ function createSubjectCard(subject) {
             </div>
 
             <div class="arcanum-coin-badge">
+                <img class="arcanum-coin-badge__coin" src="/arcanum-coin.png" alt="">
                 <strong>${subject.coins}</strong>
                 <span>Münzen verdient${subject.coins > 100 ? ` · +${subject.coins-100} Zusatzmünzen` : ''}</span>
             </div>

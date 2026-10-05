@@ -2603,9 +2603,10 @@ header.arcanum-hero
 }
 
 .arcanum-subject-card .arcanum-coin-badge {
+    position: relative;
     min-width: 13rem !important;
     min-height: 4.7rem;
-    padding: 0.8rem 1.15rem !important;
+    padding: 0.8rem 1.15rem 0.8rem 4.2rem !important;
     display: flex !important;
     flex-direction: column;
     justify-content: center;
@@ -2619,6 +2620,16 @@ header.arcanum-hero
 .arcanum-subject-card .arcanum-coin-badge::before {
     content: none !important;
     display: none !important;
+}
+
+.arcanum-subject-card .arcanum-coin-badge__coin {
+    position: absolute;
+    top: 50%;
+    left: 1.05rem;
+    width: 2.35rem;
+    height: 2.35rem;
+    transform: translateY(-50%);
+    object-fit: contain;
 }
 
 .arcanum-subject-card .arcanum-coin-badge strong {
