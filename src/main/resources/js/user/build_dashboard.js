@@ -21,14 +21,17 @@ async function initialiseArcanumDashboard() {
         renderStudentProfile(studentData);
 
         const subjectModels = await Promise.all(
-            (Array.isArray(subjects) ? subjects : []).map(
+            [...(Array.isArray(subjects) ? subjects : [])]
+                .sort((a, b) => (Number(a.displayOrder ?? 1000) - Number(b.displayOrder ?? 1000)) ||
+                    String(a.displayName || a.name).localeCompare(String(b.displayName || b.name), 'de'))
+                .map(
                 subject => createSubjectModel(subject, studentData)
             )
         );
 
         reconcileCurriculumSemesters(subjectModels);
         renderSubjects(subjectModels);
-        renderSummary(subjectModels);
+        renderSummary(subjectModels, studentData);
     } catch (error) {
         console.error("Arcanum-Dashboard konnte nicht geladen werden:", error);
         renderFatalError(
@@ -53,13 +56,18 @@ function renderStudentProfile(studentData) {
     setText("student-initials", createInitials(firstName, lastName));
     initialiseAvatarSelector(studentData);
 
-    setText("total-coins", "Wird geladen …");
-
-    /*
-     * Das aktuelle Backend stellt noch keinen Rang-Endpunkt bereit.
-     * Deshalb zeigen wir hier bewusst keinen erfundenen Platz an.
-     */
-    setText("student-rank", "noch offen");
+    const totalCoins = Number.isSafeInteger(studentData?.totalValidCoins)
+        ? studentData.totalValidCoins : null;
+    const ranking = studentData?.ranking;
+    setText("total-coins", totalCoins == null ? "Nicht verfügbar" : String(totalCoins));
+    const rankCard = document.getElementById("student-rank")?.closest(".arcanum-score-card");
+    rankCard?.classList.remove("arcanum-score-card--rank-first", "arcanum-score-card--rank-second", "arcanum-score-card--rank-third");
+    if (ranking?.inTopTen && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 10) {
+        setText("student-rank", `Platz ${ranking.rank}`);
+        if (rankCard && ranking.rank <= 3) rankCard.classList.add(`arcanum-score-card--rank-${['first','second','third'][ranking.rank - 1]}`);
+    } else {
+        setText("student-rank", "Du bist nicht in den Top Ten.");
+    }
 }
 
 async function createSubjectModel(subject, studentData) {
@@ -106,7 +114,7 @@ async function createSubjectModel(subject, studentData) {
 
     return {
         id: subject.id,
-        name: textValue(subject.name) || "Unbenanntes Fach",
+        name: textValue(subject.displayName || subject.name) || "Unbenanntes Fach",
         coins,
         catalog,
         semesterId:catalog.semesterId,
@@ -316,7 +324,7 @@ function createSubjectCard(subject) {
     const forecast = subject.forecast || {available:false,
         message:'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'};
     const forecastDetails = forecast.available
-        ? `<span>Momentan verdienst du ${formatGermanDecimal(forecast.paceCoinsPerDay)} Münzen pro Tag. Es sind noch ${forecast.remainingDays} Tage bis zum Zeugnis. Damit würdest du voraussichtlich auf ${forecast.forecastCoins} Münzen und Note ${forecast.forecastGrade} kommen.</span>
+        ? `<span>Momentan verdienst du <mark class="arcanum-forecast-value">${formatGermanDecimal(forecast.paceCoinsPerDay)} Münzen pro Tag</mark>. Es sind noch <mark class="arcanum-forecast-value">${forecast.remainingDays} Tage</mark> bis zum Zeugnis. Damit würdest du voraussichtlich auf <mark class="arcanum-forecast-value">${forecast.forecastCoins} Münzen</mark> und die <mark class="arcanum-forecast-value">Note ${forecast.forecastGrade}</mark> kommen.</span>
            <small>${escapeHtml(forecast.message)} ${escapeHtml(forecastMotivation(forecast.forecastGrade))}</small>`
         : `<span>Sammle noch ein paar bestätigte Etappen. Dann können wir eine Prognose für dein Zeugnis berechnen.</span>`;
 
@@ -1799,14 +1807,17 @@ function renderPartnerMatches(container, partners, subject) {
 }
 
 
-function renderSummary(subjectModels) {
+function renderSummary(subjectModels, studentData) {
     const successful = subjectModels.filter(subject => !subject.curriculumError);
     const totalCoins = successful.reduce(
         (sum, subject) => sum + subject.coins,
         0
     );
     const incomplete = successful.length !== subjectModels.length;
-    setText('total-coins', incomplete ? (successful.length ? `${totalCoins} · unvollständig` : 'Nicht verfügbar') : String(totalCoins));
+    const serverTotal = Number.isSafeInteger(studentData?.totalValidCoins) ? studentData.totalValidCoins : null;
+    setText('total-coins', serverTotal == null
+        ? (incomplete ? (successful.length ? `${totalCoins} · unvollständig` : 'Nicht verfügbar') : String(totalCoins))
+        : String(serverTotal));
 
     const activeSubjects = subjectModels.filter(
         subject => subject.currentTopic

@@ -3068,3 +3068,47 @@ header.arcanum-hero .arcanum-grade-pill {
 .arcanum-curriculum-plan li span { font-size: .9rem; }
 .arcanum-curriculum-plan .is-completed { color: #235034; }
 .arcanum-curriculum-plan .is-open { color: #514935; }
+
+/* Live forecast values: compact, high-contrast badges without decorative icons. */
+.arcanum-current-grade__forecast,
+.arcanum-current-grade__forecast-content,
+.arcanum-current-grade__forecast-content > span,
+.arcanum-current-grade__forecast-content > small {
+    color: #000 !important;
+    font-weight: 800 !important;
+}
+.arcanum-forecast-value {
+    display: inline-block;
+    padding: 0.08rem 0.32rem;
+    border-radius: 0.3rem;
+    background: #f1d68b;
+    color: #000 !important;
+    font: inherit;
+    font-weight: 900 !important;
+    white-space: nowrap;
+}
+.arcanum-score-card--rank-first .arcanum-score-card__value--small {
+    position: relative;
+    border: 2px solid #b28a36;
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+}
+.arcanum-score-card--rank-first .arcanum-score-card__value--small::before,
+.arcanum-score-card--rank-first .arcanum-score-card__value--small::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 0.85rem;
+    height: 1.2rem;
+    border: 2px solid #b28a36;
+    border-radius: 70% 30% 70% 30%;
+    transform: translateY(-50%);
+}
+.arcanum-score-card--rank-first .arcanum-score-card__value--small::before { left: -1.05rem; }
+.arcanum-score-card--rank-first .arcanum-score-card__value--small::after { right: -1.05rem; transform: translateY(-50%) scaleX(-1); }
+.arcanum-score-card--rank-second .arcanum-score-card__value--small { border: 2px solid #9aa3ad; border-radius: 0.35rem; padding: 0.25rem 0.45rem; }
+.arcanum-score-card--rank-third .arcanum-score-card__value--small { border: 2px solid #b77a45; border-radius: 0.35rem; padding: 0.25rem 0.45rem; }
+@media (max-width: 600px) {
+    .arcanum-score-card--rank-first .arcanum-score-card__value--small::before { left: -0.7rem; }
+    .arcanum-score-card--rank-first .arcanum-score-card__value--small::after { right: -0.7rem; }
+}
