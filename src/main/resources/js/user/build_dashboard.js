@@ -316,7 +316,7 @@ function createSubjectCard(subject) {
     const forecast = subject.forecast || {available:false,
         message:'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'};
     const forecastDetails = forecast.available
-        ? `<span>🪙 Momentan verdienst du ${formatGermanDecimal(forecast.paceCoinsPerDay)} Münzen pro Tag. ⏳ Es sind noch ${forecast.remainingDays} Tage bis zum Zeugnis. Damit würdest du voraussichtlich auf ${forecast.forecastCoins} Münzen und Note ${forecast.forecastGrade} kommen.</span>
+        ? `<span>Momentan verdienst du ${formatGermanDecimal(forecast.paceCoinsPerDay)} Münzen pro Tag. Es sind noch ${forecast.remainingDays} Tage bis zum Zeugnis. Damit würdest du voraussichtlich auf ${forecast.forecastCoins} Münzen und Note ${forecast.forecastGrade} kommen.</span>
            <small>${escapeHtml(forecast.message)} ${escapeHtml(forecastMotivation(forecast.forecastGrade))}</small>`
         : `<span>Sammle noch ein paar bestätigte Etappen. Dann können wir eine Prognose für dein Zeugnis berechnen.</span>`;
 

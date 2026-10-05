@@ -2556,7 +2556,7 @@ header.arcanum-hero
 }
 
 .arcanum-subject-card .arcanum-current-grade__forecast > strong {
-    color: var(--arcanum-gold-light);
+    color: #000;
     font-size: 0.98rem;
     font-weight: 850;
 }
@@ -2569,19 +2569,20 @@ header.arcanum-hero
 .arcanum-subject-card .arcanum-current-grade__forecast-content > span,
 .arcanum-subject-card .arcanum-current-grade__forecast-content > small {
     display: block;
-    color: var(--arcanum-text);
+    color: #000;
     font-size: 0.98rem;
+    font-weight: 750;
     line-height: 1.4;
 }
 
 .arcanum-subject-card .arcanum-current-grade__forecast-content small {
-    color: var(--arcanum-muted);
+    color: #000;
 }
 
 .arcanum-subject-card .arcanum-coin-badge {
     min-width: 13rem !important;
     min-height: 4.7rem;
-    padding: 0.8rem 1.15rem 0.8rem 3.8rem !important;
+    padding: 0.8rem 1.15rem !important;
     display: flex !important;
     flex-direction: column;
     justify-content: center;
@@ -2590,6 +2591,11 @@ header.arcanum-hero
     border-radius: 0.8rem;
     background: rgba(17, 24, 32, 0.36);
     text-align: left !important;
+}
+
+.arcanum-subject-card .arcanum-coin-badge::before {
+    content: none !important;
+    display: none !important;
 }
 
 .arcanum-subject-card .arcanum-coin-badge strong {
