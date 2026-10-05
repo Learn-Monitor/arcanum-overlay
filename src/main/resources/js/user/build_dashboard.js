@@ -116,6 +116,7 @@ async function createSubjectModel(subject, studentData) {
         lockedTasks: lockedForSubject,
         currentGrade,
         nextGrade,
+        forecast: catalog.forecast,
         requests: safeArray(
             studentData?.currentRequests?.[subject.id]
         )
@@ -195,7 +196,25 @@ function normalizeCurriculumCatalog(body) {
         if (!tokenTotalMatches ||
             tasks.filter(task => task.completed).reduce((sum, task) => sum + task.tokens, 0) !== body.progress[kind+'Tokens']) fail();
     }
+    result.forecast = normalizeForecast(body.forecast);
     return result;
+}
+
+function normalizeForecast(forecast) {
+    const unavailable = {
+        available: false,
+        message: 'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'
+    };
+    if (!forecast || typeof forecast !== 'object') return unavailable;
+    const integer = value => Number.isSafeInteger(value) && value >= 0;
+    if (forecast.available !== true) {
+        return {...unavailable, message: typeof forecast.message === 'string' ? forecast.message : unavailable.message};
+    }
+    if (!integer(forecast.forecastCoins) || !integer(forecast.forecastGrade) ||
+        forecast.forecastGrade < 1 || forecast.forecastGrade > 6 ||
+        !integer(forecast.remainingDays) || !integer(forecast.remainingStages) ||
+        !integer(forecast.remainingCoinPotential) || typeof forecast.message !== 'string') return unavailable;
+    return forecast;
 }
 
 function reconcileCurriculumSemesters(subjects) {
@@ -291,6 +310,14 @@ function createSubjectCard(subject) {
     const nextGradeText = subject.nextGrade
         ? `${subject.nextGrade.remaining} Münzen bis Note ${subject.nextGrade.grade}`
         : "Höchste Notenstufe erreicht";
+    const forecast = subject.forecast || {available:false,
+        message:'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'};
+    const forecastDetails = forecast.available
+        ? `<strong>Note ${forecast.forecastGrade} · ${escapeHtml(forecast.forecastGradeLabel || '')}</strong>
+           <span>${forecast.forecastCoins} Münzen zum Halbjahresende · ${forecast.remainingDays} verbleibende Tage</span>
+           <span>${forecast.remainingStages} verbleibende Etappen · ${forecast.remainingCoinPotential} Münzen Potenzial</span>
+           <small>${escapeHtml(forecast.message)}</small>`
+        : `<strong>Noch keine belastbare Prognose</strong><span>${escapeHtml(forecast.message)}</span>`;
 
     card.innerHTML = `
         <div class="arcanum-subject-card__top">
@@ -328,13 +355,19 @@ function createSubjectCard(subject) {
 
         <div class="arcanum-current-grade ${subject.currentGrade.cssClass}">
             <span class="arcanum-current-grade__label">
-                Aktuelle Bewertung
+                Aktueller Zwischenstand
             </span>
 
             <strong class="arcanum-current-grade__value">
                 ${escapeHtml(subject.currentGrade.display)}
             </strong>
+            <small class="arcanum-current-grade__note">Nur bisher verdiente Münzen; dies ist noch keine Zeugnisprognose.</small>
         </div>
+
+        <section class="arcanum-forecast" aria-label="Zeugnisprognose">
+            <span class="arcanum-forecast__label">Zeugnisprognose</span>
+            <div class="arcanum-forecast__content">${forecastDetails}</div>
+        </section>
 
         <section
             class="arcanum-subject-actions

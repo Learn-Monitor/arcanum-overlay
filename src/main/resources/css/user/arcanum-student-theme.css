@@ -2532,6 +2532,94 @@ header.arcanum-hero
 
 /* arcanum-coin-badge-v11:end */
 
+/* Zeugnisprognose und lesbare Münzbox */
+.arcanum-subject-card .arcanum-current-grade {
+    flex-wrap: wrap;
+}
+
+.arcanum-subject-card .arcanum-current-grade__note {
+    flex-basis: 100%;
+    color: var(--arcanum-muted);
+    font-size: 0.88rem;
+    line-height: 1.35;
+}
+
+.arcanum-subject-card .arcanum-forecast {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0 0 1rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 227, 154, 0.3);
+    border-radius: 0.9rem;
+    background: rgba(17, 24, 32, 0.42);
+}
+
+.arcanum-subject-card .arcanum-forecast__label {
+    color: var(--arcanum-gold-light);
+    font-size: 0.98rem;
+    font-weight: 850;
+}
+
+.arcanum-subject-card .arcanum-forecast__content {
+    display: grid;
+    gap: 0.2rem;
+    line-height: 1.35;
+}
+
+.arcanum-subject-card .arcanum-forecast__content strong {
+    font-size: 1.08rem;
+}
+
+.arcanum-subject-card .arcanum-forecast__content span,
+.arcanum-subject-card .arcanum-forecast__content small {
+    color: var(--arcanum-muted);
+    font-size: 0.9rem;
+}
+
+.arcanum-subject-card .arcanum-coin-badge {
+    min-width: 13rem !important;
+    min-height: 4.7rem;
+    padding: 0.8rem 1.15rem 0.8rem 3.8rem !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.25rem;
+    border: 1px solid rgba(255, 227, 154, 0.34);
+    border-radius: 0.8rem;
+    background: rgba(17, 24, 32, 0.36);
+    text-align: left !important;
+}
+
+.arcanum-subject-card .arcanum-coin-badge strong {
+    display: block !important;
+    margin: 0;
+    transform: none !important;
+    font-size: 2.02rem !important;
+    line-height: 1 !important;
+    text-align: left !important;
+}
+
+.arcanum-subject-card .arcanum-coin-badge span {
+    display: block !important;
+    max-width: 11rem;
+    margin: 0;
+    transform: none !important;
+    color: var(--arcanum-muted);
+    font-size: 0.88rem !important;
+    line-height: 1.18 !important;
+    text-align: left !important;
+    text-transform: none;
+    white-space: normal;
+}
+
+@media (max-width: 450px) {
+    .arcanum-subject-card .arcanum-coin-badge {
+        width: 100%;
+        min-width: 0 !important;
+        min-height: 4.7rem;
+    }
+}
+
 
 
 /* arcanum-subject-small-text-v12:start */

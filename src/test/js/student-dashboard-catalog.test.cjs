@@ -54,3 +54,28 @@ test('keeps the central hidden-token equality check strict', () => {
             unreleasedCentralTokens: 1, regularLimit: 100, hardLimit: 105 }
     })));
 });
+
+test('accepts only the server-provided forecast as display data', () => {
+    const result = normalizer()(catalog({forecast: {
+        available: true,
+        forecastCoins: 68,
+        forecastGrade: 3,
+        forecastGradeLabel: 'befriedigend',
+        remainingDays: 42,
+        remainingStages: 4,
+        remainingCoinPotential: 32,
+        message: 'Prognose bei gleichbleibendem Arbeitstempo.'
+    }}));
+    assert.equal(result.forecast.forecastCoins, 68);
+    assert.equal(result.forecast.forecastGrade, 3);
+    assert.equal(result.forecast.remainingCoinPotential, 32);
+});
+
+test('shows no forecast when the server withholds it', () => {
+    const result = normalizer()(catalog({forecast: {
+        available: false,
+        message: 'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'
+    }}));
+    assert.equal(result.forecast.available, false);
+    assert.match(result.forecast.message, /zu wenige bestätigte Leistungen/);
+});
