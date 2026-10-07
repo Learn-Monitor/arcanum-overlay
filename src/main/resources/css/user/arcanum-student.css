@@ -363,6 +363,7 @@ select {
 .arcanum-progress__track span {
     display: block;
     height: 100%;
+    width: var(--arcanum-progress, 0%);
     border-radius: inherit;
     background:
         linear-gradient(90deg, var(--arcanum-green), var(--arcanum-gold));

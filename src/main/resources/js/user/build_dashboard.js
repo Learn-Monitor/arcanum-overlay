@@ -360,7 +360,7 @@ function createSubjectCard(subject) {
                 aria-valuemax="100"
                 aria-valuenow="${progress}"
             >
-                <span style="width: ${progress}%"></span>
+                <span class="arcanum-progress__value"></span>
             </div>
         </div>
 
@@ -643,6 +643,11 @@ function createSubjectCard(subject) {
 
 
     `;
+
+    const progressValue = card.querySelector(".arcanum-progress__value");
+    if (progressValue) {
+        progressValue.style.setProperty("--arcanum-progress", `${progress}%`);
+    }
 
     card.querySelectorAll("[data-detail-status]").forEach(
         button => {
