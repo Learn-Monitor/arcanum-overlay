@@ -602,6 +602,24 @@
     "context": "js",
     "access_level": "public"
   },
+  "/arcanum-login.css": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "public"
+    ],
+    "context": "css",
+    "access_level": "public"
+  },
+  "/arcanum-login.js": {
+    "type": "GET",
+    "handler_type": "FileRequestHandler",
+    "namespaces": [
+      "public"
+    ],
+    "context": "js",
+    "access_level": "public"
+  },
   "/arcanum-logout-background.png": {
     "type": "GET",
     "handler_type": "FileRequestHandler",
