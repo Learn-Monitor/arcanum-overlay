@@ -325,7 +325,7 @@ function createSubjectCard(subject) {
     const forecast = subject.forecast || {available:false,
         message:'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'};
     const forecastDetails = forecast.available
-        ? `<span>Momentan verdienst du <mark class="arcanum-forecast-value"><img src="/arcanum-coin.png" alt="">${formatGermanDecimal(forecast.paceCoinsPerDay)}</mark> Münzen pro Tag. Es sind noch <mark class="arcanum-forecast-value">${forecast.remainingDays} Tage</mark> bis zum Zeugnis. Damit würdest du voraussichtlich auf <mark class="arcanum-forecast-value"><img src="/arcanum-coin.png" alt="">${forecast.forecastCoins}</mark> Münzen und die <mark class="arcanum-forecast-value">Note ${forecast.forecastGrade}</mark> kommen.</span>
+        ? `<span>Momentan verdienst du <mark class="arcanum-forecast-value"><img src="/arcanum-coin-a5c34f85b21b75d5.webp" alt="">${formatGermanDecimal(forecast.paceCoinsPerDay)}</mark> Münzen pro Tag. Es sind noch <mark class="arcanum-forecast-value">${forecast.remainingDays} Tage</mark> bis zum Zeugnis. Damit würdest du voraussichtlich auf <mark class="arcanum-forecast-value"><img src="/arcanum-coin-a5c34f85b21b75d5.webp" alt="">${forecast.forecastCoins}</mark> Münzen und die <mark class="arcanum-forecast-value">Note ${forecast.forecastGrade}</mark> kommen.</span>
            <small>${escapeHtml(forecast.message || '')} ${escapeHtml(forecastMotivation(forecast.forecastGrade))}</small>`
         : `<span>Sammle noch ein paar bestätigte Etappen. Dann können wir eine Prognose für dein Zeugnis berechnen.</span>`;
 
@@ -341,7 +341,7 @@ function createSubjectCard(subject) {
             </div>
 
             <div class="arcanum-coin-badge">
-                <img class="arcanum-coin-badge__coin" src="/arcanum-coin.png" alt="">
+                <img class="arcanum-coin-badge__coin" src="/arcanum-coin-a5c34f85b21b75d5.webp" alt="">
                 <strong>${subject.coins}</strong>
                 <span>Münzen verdient${subject.coins > 100 ? ` · +${subject.coins-100} Zusatzmünzen` : ''}</span>
             </div>

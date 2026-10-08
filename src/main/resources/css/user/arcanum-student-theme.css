@@ -44,7 +44,7 @@ body.arcanum-page {
             rgba(10, 20, 16, 0.52) 100%
         ),
         url("/arcanum-dashboard-background.png"),
-        url("/arcanum-login-background.png") !important;
+        url("/arcanum-login-background-3d41c61567504c9b.webp") !important;
     background-position: center top, center top, center top !important;
     background-repeat: no-repeat, no-repeat, no-repeat !important;
     background-size: cover, cover, cover !important;
@@ -243,7 +243,7 @@ body.arcanum-page::before {
 .arcanum-logo-placeholder {
     width: 4.8rem !important;
     height: 4.8rem !important;
-    background: url("/arcanum-logo.png") center / contain no-repeat !important;
+    background: url("/arcanum-logo-b674493ab1b01691.webp") center / contain no-repeat !important;
     border: 0 !important;
     border-radius: 50% !important;
     box-shadow: none !important;
@@ -390,7 +390,7 @@ body.arcanum-page::before {
     width: 2.2rem;
     height: 2.2rem;
     transform: translateY(-50%);
-    background: url("/arcanum-coin.png") center / contain no-repeat;
+    background: url("/arcanum-coin-a5c34f85b21b75d5.webp") center / contain no-repeat;
 }
 
 .arcanum-forecast-value {
@@ -413,7 +413,7 @@ body.arcanum-page::before {
     height: 1.15rem;
     margin-right: 0.35rem;
     vertical-align: -0.12em;
-    background: url("/arcanum-coin.png") center / contain no-repeat;
+    background: url("/arcanum-coin-a5c34f85b21b75d5.webp") center / contain no-repeat;
 }
 
 .arcanum-current-grade,
@@ -1022,7 +1022,7 @@ header.arcanum-hero::after,
     margin: 0 !important;
 
     background:
-        url("/arcanum-logo.png")
+        url("/arcanum-logo-b674493ab1b01691.webp")
         center / contain
         no-repeat !important;
 
@@ -1311,7 +1311,7 @@ header.arcanum-hero::after,
     height: 2.35rem !important;
 
     background-image:
-        url("/arcanum-coin.png") !important;
+        url("/arcanum-coin-a5c34f85b21b75d5.webp") !important;
 
     background-position: center !important;
     background-repeat: no-repeat !important;

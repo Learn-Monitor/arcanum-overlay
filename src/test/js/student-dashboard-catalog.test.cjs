@@ -103,6 +103,6 @@ test('formats German forecast decimals and motivating messages', () => {
 });
 
 test('keeps forecast coin imagery and removes the retired forecast sentence', () => {
-    assert.match(source, /arcanum-coin\.png/);
+    assert.match(source, /arcanum-coin-a5c34f85b21b75d5\.webp/);
     assert.match(source, /arcanum-coin-badge__coin/);
 });
