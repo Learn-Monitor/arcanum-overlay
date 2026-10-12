@@ -50,6 +50,38 @@ test('accepts a catalog with unreleased flexible planned stages', () => {
     assert.equal(result.planned.flexibleTokens, 21);
 });
 
+test('keeps flexible maximums separate from effective earned awards', () => {
+    const result = normalizer()(catalog({
+        flexibleTasks: [
+            {id: 21, name: 'Variable', tokens: 4, variableTokens: true, awardedTokens: 2,
+                topicId: 20, topicName: 'Flexibel', completed: true},
+            {id: 22, name: 'Legacy', tokens: 3, variableTokens: false, awardedTokens: null,
+                topicId: 20, topicName: 'Flexibel', completed: true},
+            {id: 23, name: 'Open', tokens: 4, variableTokens: true,
+                topicId: 20, topicName: 'Flexibel', completed: false}
+        ],
+        planned: {centralTokens: 4, flexibleTokens: 21, totalTokens: 25,
+            unreleasedCentralTokens: 0, regularLimit: 100, hardLimit: 105},
+        progress: {centralTokens: 0, flexibleTokens: 5, totalTokens: 5, semesterId: 1}
+    }));
+    assert.equal(result.flexibleTasks[0].tokens, 4);
+    assert.equal(result.flexibleTasks[0].awardedTokens, 2);
+    assert.equal(result.flexibleTasks[1].awardedTokens, 3);
+    assert.equal(result.flexibleTasks[2].tokens, 4);
+    assert.equal(result.progress.flexibleTokens, 5);
+});
+
+test('does not replace an explicit zero award through truthiness fallback', () => {
+    const result = normalizer()(catalog({
+        flexibleTasks: [{id: 21, name: 'Zero legacy value', tokens: 4,
+            awardedTokens: 0, topicId: 20, topicName: 'Flexibel', completed: true}],
+        planned: {centralTokens: 4, flexibleTokens: 21, totalTokens: 25,
+            unreleasedCentralTokens: 0, regularLimit: 100, hardLimit: 105},
+        progress: {centralTokens: 0, flexibleTokens: 0, totalTokens: 0, semesterId: 1}
+    }));
+    assert.equal(result.flexibleTasks[0].awardedTokens, 0);
+});
+
 test('rejects visible flexible stages above the planned total', () => {
     assert.throws(() => normalizer()(catalog({
         flexibleTasks: [{ id: 21, name: 'Zu viele Münzen', tokens: 22,

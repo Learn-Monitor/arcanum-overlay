@@ -165,6 +165,12 @@ async function fetchStudentCurriculumCatalog(subjectId) {
 function normalizeCurriculumCatalog(body) {
     const fail = () => { throw curriculumError('invalid_data', 'Die Etappendaten konnten nicht verarbeitet werden. Bitte neu laden.'); };
     const integer = value => Number.isSafeInteger(value) && value >= 0;
+    const effectiveAwardedTokens = task => {
+        const rawAward = task?.awardedTokens;
+        if (rawAward === null || rawAward === undefined) return task.tokens;
+        if (typeof rawAward !== 'number' || !Number.isSafeInteger(rawAward) || rawAward < 0 || rawAward > task.tokens) fail();
+        return rawAward;
+    };
     if (!body || !integer(body.semesterId) || body.semesterId === 0 || !body.progress || !body.planned ||
         body.progress.semesterId !== body.semesterId) fail();
     for (const totals of [body.planned, body.progress]) {
@@ -184,10 +190,14 @@ function normalizeCurriculumCatalog(body) {
         result[kind+'Tasks'] = tasks.map(task => {
             if (!task || !integer(task.id) || task.id === 0 || taskIds.has(task.id) ||
                 typeof task.name !== 'string' || !integer(task.tokens) || typeof task.completed !== 'boolean') fail();
+            if (task.variableTokens !== undefined && typeof task.variableTokens !== 'boolean') fail();
             taskIds.add(task.id);
             if (task.topicId != null && (!topicIds.has(task.topicId) || typeof task.topicName !== 'string')) fail();
             if (kind === 'central' && (task.topicId == null || ![1,2,3].includes(task.niveau))) fail();
-            return {...task, kind, topic:task.topicId == null ? null : {id:task.topicId,name:task.topicName}};
+            const normalized = {...task, kind, topic:task.topicId == null ? null : {id:task.topicId,name:task.topicName}};
+            if (task.completed) normalized.awardedTokens = effectiveAwardedTokens(task);
+            else if (task.awardedTokens !== undefined && task.awardedTokens !== null) effectiveAwardedTokens(task);
+            return normalized;
         });
         // Validate the transport contract; the backend totals remain authoritative.
         // The catalog only contains released flexible stages.  Their planned
@@ -203,7 +213,7 @@ function normalizeCurriculumCatalog(body) {
             ? visibleTokens <= plannedTokens
             : visibleTokens + unreleased === plannedTokens;
         if (!tokenTotalMatches ||
-            tasks.filter(task => task.completed).reduce((sum, task) => sum + task.tokens, 0) !== body.progress[kind+'Tokens']) fail();
+            tasks.filter(task => task.completed).reduce((sum, task) => sum + effectiveAwardedTokens(task), 0) !== body.progress[kind+'Tokens']) fail();
     }
     result.forecast = normalizeForecast(body.forecast);
     return result;
@@ -264,7 +274,8 @@ function createCurriculumPlan(catalog) {
                 const item=document.createElement('li');item.dataset.taskKey=`${kind}:${task.id}`;
                 const name=document.createElement('strong');name.textContent=task.name;
                 const state=document.createElement('span');
-                state.textContent=`${task.tokens} Münzen · ${task.completed?'Abgeschlossen · verdient':'Offen · erreichbar'}`;
+                const earned = task.completed ? task.awardedTokens : task.tokens;
+                state.textContent=`${earned} Münzen · ${task.completed?'Abgeschlossen · verdient':'Offen · erreichbar'}`;
                 item.className=task.completed?'is-completed':'is-open';item.append(name,state);list.append(item);
             }
             if (!tasks.length) {const empty=document.createElement('li');empty.textContent='Noch keine Etappen in diesem Thema.';list.append(empty);}
@@ -1843,6 +1854,13 @@ function renderSummary(subjectModels, studentData) {
 
 
 function calculateTaskCoins(task) {
+    if (task?.completed === true) {
+        const rawAward = task.awardedTokens;
+        if (rawAward === null || rawAward === undefined) return Math.max(0, Number(task.tokens) || 0);
+        return typeof rawAward === 'number' && Number.isSafeInteger(rawAward) && rawAward >= 0
+            ? rawAward
+            : 0;
+    }
     /*
      * Übergangslogik bis das Backend einen eigenen Münzwert
      * pro Etappe bereitstellt:
