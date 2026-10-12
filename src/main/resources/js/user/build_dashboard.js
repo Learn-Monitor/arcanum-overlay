@@ -274,8 +274,10 @@ function createCurriculumPlan(catalog) {
                 const item=document.createElement('li');item.dataset.taskKey=`${kind}:${task.id}`;
                 const name=document.createElement('strong');name.textContent=task.name;
                 const state=document.createElement('span');
-                const earned = task.completed ? task.awardedTokens : task.tokens;
-                state.textContent=`${earned} Münzen · ${task.completed?'Abgeschlossen · verdient':'Offen · erreichbar'}`;
+                const taskCoins = task.variableTokens === true
+                    ? formatCurriculumTaskCoins(task)
+                    : `${task.completed ? calculateTaskCoins(task) : task.tokens} Münzen`;
+                state.textContent=`${taskCoins} · ${task.completed?'Abgeschlossen · verdient':'Offen · erreichbar'}`;
                 item.className=task.completed?'is-completed':'is-open';item.append(name,state);list.append(item);
             }
             if (!tasks.length) {const empty=document.createElement('li');empty.textContent='Noch keine Etappen in diesem Thema.';list.append(empty);}
@@ -1232,13 +1234,7 @@ function createTaskDetailRowHtml(task, status) {
     const level = task?.kind === 'flexible' ? {label:'Flexible Etappe',cssClass:'offen'} : getNiveauInformation(task?.niveau);
     const taskId = extractEntityId(task?.id ?? task);
 
-    const coinText = coins > 0 || task?.kind
-        ? (
-            status === "completed"
-                ? `${coins} Münzen`
-                : `${coins} mögliche Münzen`
-        )
-        : "Münzwert noch offen";
+    const coinText = formatCurriculumTaskCoins(task, status === "completed");
 
     let actionHtml = "";
 
@@ -1299,6 +1295,19 @@ function createTaskDetailRowHtml(task, status) {
             </div>
         </li>
     `;
+}
+
+function formatCurriculumTaskCoins(task, completed = task?.completed === true) {
+    const maximum = Number(task?.tokens);
+    if (!Number.isSafeInteger(maximum) || maximum < 0) return 'Münzwert noch offen';
+    if (task?.variableTokens === true) {
+        if (!completed) return `bis zu ${maximum} Münze${maximum === 1 ? '' : 'n'}`;
+        const earned = calculateTaskCoins(task);
+        return `${earned} von ${maximum} Münze${maximum === 1 ? '' : 'n'}`;
+    }
+    const amount = completed ? calculateTaskCoins(task) : maximum;
+    const unit = amount === 1 ? 'Münze' : 'Münzen';
+    return completed ? `${amount} ${unit}` : `${amount} mögliche ${unit}`;
 }
 
 function getNiveauInformation(niveau) {

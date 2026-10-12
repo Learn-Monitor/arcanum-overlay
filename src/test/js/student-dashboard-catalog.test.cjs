@@ -19,11 +19,13 @@ function normalizer() {
 }
 
 function displayHelpers() {
-    const context = { console };
+    const context = {
+        console,
+        document: { readyState: 'loading', addEventListener() {}, querySelector() { return null; } },
+        window: { setTimeout() { return 0; } }
+    };
     vm.createContext(context);
-    const start = source.indexOf('function formatGermanDecimal');
-    const end = source.indexOf('function taskBelongsToSubject');
-    vm.runInContext(source.slice(start, end), context);
+    vm.runInContext(source, context);
     return context;
 }
 
@@ -69,6 +71,21 @@ test('keeps flexible maximums separate from effective earned awards', () => {
     assert.equal(result.flexibleTasks[1].awardedTokens, 3);
     assert.equal(result.flexibleTasks[2].tokens, 4);
     assert.equal(result.progress.flexibleTokens, 5);
+});
+
+test('formats open and completed variable stages with maximum context', () => {
+    const format = displayHelpers().formatCurriculumTaskCoins;
+    assert.equal(format({tokens: 4, variableTokens: true, completed: false}), 'bis zu 4 Münzen');
+    assert.equal(format({tokens: 4, variableTokens: true, awardedTokens: 2, completed: true}), '2 von 4 Münzen');
+    assert.equal(format({tokens: 4, variableTokens: true, awardedTokens: 4, completed: true}), '4 von 4 Münzen');
+    assert.equal(format({tokens: 1, variableTokens: true, completed: false}), 'bis zu 1 Münze');
+});
+
+test('keeps fixed task wording compatible while preserving zero awards', () => {
+    const format = displayHelpers().formatCurriculumTaskCoins;
+    assert.equal(format({tokens: 4, variableTokens: false, completed: false}), '4 mögliche Münzen');
+    assert.equal(format({tokens: 4, variableTokens: false, awardedTokens: 4, completed: true}), '4 Münzen');
+    assert.equal(format({tokens: 4, variableTokens: true, awardedTokens: 0, completed: true}), '0 von 4 Münzen');
 });
 
 test('does not replace an explicit zero award through truthiness fallback', () => {
