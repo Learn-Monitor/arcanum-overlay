@@ -1180,11 +1180,16 @@ function groupTasksByTopic(tasks, status) {
     return [...groups.values()]
         .map(group => ({
             ...group,
-            tasks: [...group.tasks].sort(compareTasksForDetails)
+            tasks: [...group.tasks].sort(
+                status === "not-passed"
+                    ? compareNotPassedTasks
+                    : compareTasksForDetails
+            )
         }))
         .sort((left, right) => {
             if (status === "not-passed") {
-                const urgency = compareNotPassedTasks(left.tasks[0], right.tasks[0]);
+                const urgency = Math.min(...left.tasks.map(notPassedPriority)) -
+                    Math.min(...right.tasks.map(notPassedPriority));
                 if (urgency !== 0) return urgency;
             }
             if (left.number !== right.number) {
