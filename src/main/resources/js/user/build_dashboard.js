@@ -82,6 +82,9 @@ async function createSubjectModel(subject, studentData) {
     const centralIds = new Set(catalog.centralTasks.map(task => task.id));
     const selectedTasks = safeArray(studentData?.selectedTasks);
     const lockedTasks = safeArray(studentData?.lockedTasks);
+    const notPassedTasks = [...catalog.centralTasks, ...catalog.flexibleTasks]
+        .filter(task => task.completed !== true && isNotPassedTask(task))
+        .sort(compareNotPassedTasks);
 
     const completedForSubject = [...catalog.centralTasks, ...catalog.flexibleTasks].filter(task => task.completed);
 
@@ -123,6 +126,7 @@ async function createSubjectModel(subject, studentData) {
         selectedTasks: selectedForSubject,
         completedTasks: completedForSubject,
         lockedTasks: lockedForSubject,
+        notPassedTasks,
         currentGrade,
         nextGrade,
         forecast: catalog.forecast,
@@ -191,6 +195,10 @@ function normalizeCurriculumCatalog(body) {
             if (!task || !integer(task.id) || task.id === 0 || taskIds.has(task.id) ||
                 typeof task.name !== 'string' || !integer(task.tokens) || typeof task.completed !== 'boolean') fail();
             if (task.variableTokens !== undefined && typeof task.variableTokens !== 'boolean') fail();
+            if (task.assessmentStatus !== undefined &&
+                !['FAILED_ONCE', 'FAILED_TWICE', 'LOCKED'].includes(task.assessmentStatus)) fail();
+            if (task.failedAttempts !== undefined &&
+                (!integer(task.failedAttempts) || task.failedAttempts > 2)) fail();
             taskIds.add(task.id);
             if (task.topicId != null && (!topicIds.has(task.topicId) || typeof task.topicName !== 'string')) fail();
             if (kind === 'central' && (task.topicId == null || ![1,2,3].includes(task.niveau))) fail();
@@ -637,14 +645,14 @@ function createSubjectCard(subject) {
             <button
                 type="button"
                 class="arcanum-subject-stat-button
-                       arcanum-subject-stat-button--locked"
-                data-detail-status="locked"
+                       arcanum-subject-stat-button--not-passed"
+                data-detail-status="not-passed"
             >
                 <span class="arcanum-subject-stat-button__label">
-                    Gesperrt
+                    Noch nicht bestanden
                 </span>
                 <strong class="arcanum-subject-stat-button__value">
-                    ${formatStageCount(subject.lockedTasks.length)}
+                    ${formatStageCount(subject.notPassedTasks.length)}
                 </strong>
                 <span class="arcanum-subject-stat-button__action">
                     Anzeigen
@@ -714,6 +722,14 @@ const ARCANUM_TASK_DETAIL_CONFIG = {
         getTasks: subject => subject.lockedTasks,
         empty:
             "In diesem Fach gibt es keine gesperrten Etappen."
+    },
+    "not-passed": {
+        label: "Noch nicht bestanden",
+        description:
+            "Etappen mit einem oder mehreren nicht bestandenen Gelingensnachweisen.",
+        getTasks: subject => subject.notPassedTasks,
+        empty:
+            "In diesem Fach gibt es keine noch nicht bestandenen Etappen."
     }
 };
 
@@ -730,7 +746,7 @@ function openTaskDetails(subject, status) {
     }
 
     const tasks = safeArray(config.getTasks(subject));
-    const groups = groupTasksByTopic(tasks);
+    const groups = groupTasksByTopic(tasks, status);
     const dialog = ensureTaskDetailsDialog();
 
     const title = dialog.querySelector(
@@ -1118,7 +1134,7 @@ async function handleTaskActionClick(event) {
     }
 }
 
-function groupTasksByTopic(tasks) {
+function groupTasksByTopic(tasks, status) {
     const groups = new Map();
 
     safeArray(tasks).forEach(task => {
@@ -1167,6 +1183,10 @@ function groupTasksByTopic(tasks) {
             tasks: [...group.tasks].sort(compareTasksForDetails)
         }))
         .sort((left, right) => {
+            if (status === "not-passed") {
+                const urgency = compareNotPassedTasks(left.tasks[0], right.tasks[0]);
+                if (urgency !== 0) return urgency;
+            }
             if (left.number !== right.number) {
                 return left.number - right.number;
             }
@@ -1193,6 +1213,24 @@ function compareTasksForDetails(left, right) {
         "de",
         { sensitivity: "base" }
     );
+}
+
+function isNotPassedTask(task) {
+    if (!task || task.completed === true) return false;
+    if (task.assessmentStatus === "FAILED_ONCE" || task.assessmentStatus === "FAILED_TWICE") return true;
+    return task.assessmentStatus === "LOCKED" && Number(task.failedAttempts) > 0;
+}
+
+function notPassedPriority(task) {
+    if (task?.assessmentStatus === "LOCKED") return 0;
+    if (task?.assessmentStatus === "FAILED_TWICE") return 1;
+    return 2;
+}
+
+function compareNotPassedTasks(left, right) {
+    const priority = notPassedPriority(left) - notPassedPriority(right);
+    if (priority !== 0) return priority;
+    return compareTasksForDetails(left, right);
 }
 
 function createTaskGroupHtml(group, status) {
@@ -1235,6 +1273,9 @@ function createTaskDetailRowHtml(task, status) {
     const taskId = extractEntityId(task?.id ?? task);
 
     const coinText = formatCurriculumTaskCoins(task, status === "completed");
+    const notPassedLabel = status === "not-passed"
+        ? ({FAILED_ONCE: "1× nicht bestanden", FAILED_TWICE: "2× nicht bestanden", LOCKED: "Gesperrt"}[task?.assessmentStatus] || "Noch nicht bestanden")
+        : "";
 
     let actionHtml = "";
 
@@ -1290,6 +1331,8 @@ function createTaskDetailRowHtml(task, status) {
                 <span class="arcanum-task-row__coins">
                     ${escapeHtml(coinText)}
                 </span>
+
+                ${notPassedLabel ? `<span class="arcanum-task-row__status">${notPassedLabel}</span>` : ""}
 
                 ${actionHtml}
             </div>

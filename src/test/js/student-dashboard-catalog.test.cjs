@@ -155,3 +155,23 @@ test('keeps forecast coin imagery and removes the retired forecast sentence', ()
     assert.match(source, /arcanum-coin-a5c34f85b21b75d5\.webp/);
     assert.match(source, /arcanum-coin-badge__coin/);
 });
+
+test('derives only unfinished failed stages and excludes administrative locks', () => {
+    const context = displayHelpers();
+    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'FAILED_ONCE'}), true);
+    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'FAILED_TWICE'}), true);
+    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'LOCKED', failedAttempts: 2}), true);
+    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'LOCKED', failedAttempts: 0}), false);
+    assert.equal(context.isNotPassedTask({completed: false}), false);
+    assert.equal(context.isNotPassedTask({completed: true, assessmentStatus: 'FAILED_ONCE'}), false);
+});
+
+test('sorts not-passed stages by urgency', () => {
+    const context = displayHelpers();
+    const stages = [
+        {name: 'Einmal', assessmentStatus: 'FAILED_ONCE', niveau: 1},
+        {name: 'Gesperrt', assessmentStatus: 'LOCKED', failedAttempts: 2, niveau: 1},
+        {name: 'Zweimal', assessmentStatus: 'FAILED_TWICE', niveau: 1}
+    ].sort(context.compareNotPassedTasks);
+    assert.deepEqual(stages.map(stage => stage.assessmentStatus), ['LOCKED', 'FAILED_TWICE', 'FAILED_ONCE']);
+});

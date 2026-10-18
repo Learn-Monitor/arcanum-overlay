@@ -721,6 +721,10 @@ select {
     border-color: rgba(255, 180, 169, 0.12);
 }
 
+.arcanum-subject-stat-button--not-passed {
+    border-color: rgba(233, 189, 85, 0.26);
+}
+
 .arcanum-subject-stat-button__label,
 .arcanum-subject-stat-button__value,
 .arcanum-subject-stat-button__action {
@@ -928,6 +932,14 @@ select {
 .arcanum-task-row__coins {
     flex: 0 0 auto;
     color: var(--arcanum-gold-light);
+    font-size: 0.76rem;
+    font-weight: 800;
+    text-align: right;
+}
+
+.arcanum-task-row__status {
+    flex: 0 0 auto;
+    color: #ffd77b;
     font-size: 0.76rem;
     font-weight: 800;
     text-align: right;
