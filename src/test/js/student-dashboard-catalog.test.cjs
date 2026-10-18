@@ -156,14 +156,17 @@ test('keeps forecast coin imagery and removes the retired forecast sentence', ()
     assert.match(source, /arcanum-coin-badge__coin/);
 });
 
-test('derives only unfinished failed stages and excludes administrative locks', () => {
+test('derives unfinished failed stages and direct locks, excluding administrative locks', () => {
     const context = displayHelpers();
     assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'FAILED_ONCE'}), true);
     assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'FAILED_TWICE'}), true);
+    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'LOCKED', failedAttempts: 0}), true);
+    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'LOCKED', failedAttempts: 1}), true);
     assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'LOCKED', failedAttempts: 2}), true);
-    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'LOCKED', failedAttempts: 0}), false);
+    assert.equal(context.isNotPassedTask({completed: false, assessmentStatus: 'PASSED'}), false);
     assert.equal(context.isNotPassedTask({completed: false}), false);
     assert.equal(context.isNotPassedTask({completed: true, assessmentStatus: 'FAILED_ONCE'}), false);
+    assert.equal(context.isNotPassedTask({completed: true, assessmentStatus: 'LOCKED', failedAttempts: 0}), false);
 });
 
 test('sorts not-passed stages by urgency', () => {

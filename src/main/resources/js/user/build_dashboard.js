@@ -1223,7 +1223,7 @@ function compareTasksForDetails(left, right) {
 function isNotPassedTask(task) {
     if (!task || task.completed === true) return false;
     if (task.assessmentStatus === "FAILED_ONCE" || task.assessmentStatus === "FAILED_TWICE") return true;
-    return task.assessmentStatus === "LOCKED" && Number(task.failedAttempts) > 0;
+    return task.assessmentStatus === "LOCKED";
 }
 
 function notPassedPriority(task) {
