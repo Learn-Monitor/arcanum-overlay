@@ -14,7 +14,7 @@ async function initialiseArcanumDashboard() {
     try {
         const [studentData, subjects] = await Promise.all([
             fetchMyData(),
-            fetchMySubjects()
+            fetchMyManagedSubjects()
         ]);
 
         if (!Array.isArray(subjects)) throw Error("Invalid subject response");
@@ -177,10 +177,12 @@ function normalizeCurriculumCatalog(body) {
     };
     if (!body || !integer(body.semesterId) || body.semesterId === 0 || !body.progress || !body.planned ||
         body.progress.semesterId !== body.semesterId) fail();
-    for (const totals of [body.planned, body.progress]) {
-        if (!['centralTokens','flexibleTokens','totalTokens'].every(key => integer(totals[key])) ||
-            totals.centralTokens + totals.flexibleTokens !== totals.totalTokens || totals.totalTokens > 105) fail();
-    }
+    if (!['centralTokens','flexibleTokens','totalTokens'].every(key => integer(body.planned[key])) ||
+        body.planned.centralTokens + body.planned.flexibleTokens !== body.planned.totalTokens || body.planned.totalTokens > 105) fail();
+    const nansteinTokens = body.progress.nansteinTokens === undefined ? 0 : body.progress.nansteinTokens;
+    if (!integer(nansteinTokens) || !['centralTokens','flexibleTokens','totalTokens'].every(key => integer(body.progress[key])) ||
+        body.progress.centralTokens + body.progress.flexibleTokens + nansteinTokens !== body.progress.totalTokens) fail();
+    if (body.progress.completedNansteine !== undefined && !Array.isArray(body.progress.completedNansteine)) fail();
     if (body.planned.regularLimit !== 100 || body.planned.hardLimit !== 105) fail();
     const result = {...body};
     for (const kind of ['central','flexible']) {
