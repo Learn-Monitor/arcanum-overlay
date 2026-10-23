@@ -210,7 +210,13 @@
                     return;
                 }
 
-                statusBox.textContent = "Benutzername oder Passwort ist nicht korrekt.";
+                if (response.status === 429) {
+                    const retryAfter = Number.parseInt(response.headers.get("Retry-After") || "", 10);
+                    const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? ` Bitte in etwa ${retryAfter} Sekunden erneut versuchen.` : " Bitte später erneut versuchen.";
+                    statusBox.textContent = "Zu viele Anmeldeversuche." + wait;
+                } else {
+                    statusBox.textContent = "Benutzername oder Passwort ist nicht korrekt.";
+                }
             } catch (error) {
                 statusBox.textContent = "Die Anmeldung konnte gerade nicht durchgeführt werden.";
             } finally {

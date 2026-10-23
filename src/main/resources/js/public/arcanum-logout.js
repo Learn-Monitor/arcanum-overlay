@@ -19,14 +19,18 @@ async function performArcanumLogout() {
         });
 
         if (response.status === 429) {
-            await wait(1800);
+            const retryAfter = Number.parseInt(response.headers.get("Retry-After") || "", 10);
+            await wait(Number.isFinite(retryAfter) && retryAfter > 0 ? Math.min(retryAfter, 300) * 1000 : 1800);
 
-            await fetch("/logout", {
+            const retry = await fetch("/logout", {
                 method: "GET",
                 credentials: "same-origin",
                 cache: "no-store",
                 redirect: "follow"
             });
+            if (retry.status === 429 && message) {
+                message.textContent = "Die Abmeldung wird nach der kurzen Zugriffspause abgeschlossen.";
+            }
         }
     } catch (error) {
         console.warn(
