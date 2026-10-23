@@ -62,12 +62,12 @@ function renderStudentProfile(studentData) {
     setText("total-coins", totalCoins == null ? "Nicht verfügbar" : String(totalCoins));
     const rankCard = document.getElementById("student-rank")?.closest(".arcanum-score-card");
     rankCard?.classList.remove("arcanum-score-card--rank-first", "arcanum-score-card--rank-second", "arcanum-score-card--rank-third");
-    if (ranking?.rankAvailable && ranking?.inTopTen && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 10) {
+    if (ranking?.rankAvailable && (ranking?.inTopFifty ?? ranking?.inTopTen) && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 50) {
         const total = Number.isInteger(ranking.rankTotal) ? `/${ranking.rankTotal}` : '';
         setText("student-rank", `Platz ${ranking.rank}${total}`);
         if (rankCard && ranking.rank <= 3) rankCard.classList.add(`arcanum-score-card--rank-${['first','second','third'][ranking.rank - 1]}`);
     } else {
-        setText("student-rank", "Du bist nicht in den Top Ten.");
+        setText("student-rank", "Du bist nicht in den Top 50.");
     }
 }
 
@@ -383,19 +383,9 @@ function createSubjectCard(subject) {
             </div>
         </div>
 
-        <div class="arcanum-current-grade ${subject.currentGrade.cssClass}">
-            <span class="arcanum-current-grade__label">
-                Aktueller Zwischenstand
-            </span>
-
-            <strong class="arcanum-current-grade__value">
-                ${escapeHtml(subject.currentGrade.display)}
-            </strong>
-            <small class="arcanum-current-grade__note">Nur bisher verdiente Münzen; dies ist noch keine Zeugnisprognose.</small>
-            <div class="arcanum-current-grade__forecast" aria-label="Zeugnisprognose">
-                <strong>Zeugnisprognose</strong>
-                <span class="arcanum-current-grade__forecast-content">${forecastDetails}</span>
-            </div>
+        <div class="arcanum-current-grade__forecast" aria-label="Zeugnisprognose">
+            <strong>Zeugnisprognose</strong>
+            <span class="arcanum-current-grade__forecast-content">${forecastDetails}</span>
         </div>
 
         <section

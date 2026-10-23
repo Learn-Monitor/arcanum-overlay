@@ -108,6 +108,20 @@ test('routes dashboard catalog requests through the shared 429-safe fetch helper
     assert.match(source, /rateLimitSafe:true/);
 });
 
+test('does not render the current grade in the student dashboard while keeping the forecast', () => {
+    const cardStart = source.indexOf('function createSubjectCard');
+    const cardEnd = source.indexOf('function subjectSymbol', cardStart);
+    const card = source.slice(cardStart, cardEnd);
+    assert.doesNotMatch(card, /Aktueller Zwischenstand/);
+    assert.match(card, /Zeugnisprognose/);
+    assert.match(card, /forecast\.forecastGrade/);
+});
+
+test('uses the Top-50 status without changing the ranking payload contract', () => {
+    assert.match(source, /ranking\?\.inTopFifty/);
+    assert.match(source, /Du bist nicht in den Top 50/);
+});
+
 test('formats open and completed variable stages with maximum context', () => {
     const format = displayHelpers().formatCurriculumTaskCoins;
     assert.equal(format({tokens: 4, variableTokens: true, completed: false}), 'bis zu 4 Münzen');
