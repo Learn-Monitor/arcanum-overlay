@@ -3146,3 +3146,86 @@ header.arcanum-hero .arcanum-grade-pill {
     .arcanum-score-card--rank-first .arcanum-score-card__value--small::before { left: -0.7rem; }
     .arcanum-score-card--rank-first .arcanum-score-card__value--small::after { right: -0.7rem; }
 }
+
+/* ==========================================================
+   arcanum-profile-door-layout-v3
+   Die Schatzkammer-Tür ist eine eigene Spalte im Profilkasten,
+   statt absolut über Name, Daten und Knöpfe gelegt zu werden.
+   Der früher dafür reservierte padding-right wurde durch den
+   Innenabstand des Profilkastens (!important) überschrieben.
+   ========================================================== */
+
+header.arcanum-hero .arcanum-profile .arcanum-profile__identity-main,
+header.arcanum-hero .arcanum-profile__identity:not(:has(> .arcanum-profile__identity-main)) {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1rem;
+    align-items: center;
+}
+
+header.arcanum-hero .arcanum-profile__identity-main > :not(.arcanum-treasure-link),
+header.arcanum-hero .arcanum-profile__identity:not(:has(> .arcanum-profile__identity-main))
+> :not(.arcanum-treasure-link):not(.arcanum-profile__metrics):not(.arcanum-profile__score) {
+    grid-column: 1;
+    min-width: 0;
+}
+
+header.arcanum-hero .arcanum-treasure-link {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    align-self: center;
+    margin: 0 !important;
+    transform: none !important;
+}
+
+header.arcanum-hero .arcanum-treasure-link:hover,
+header.arcanum-hero .arcanum-treasure-link:focus-visible {
+    transform: scale(1.04) !important;
+}
+
+header.arcanum-hero .arcanum-profile__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.2rem;
+}
+
+header.arcanum-hero .arcanum-profile__actions > .arcanum-button {
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+/*
+ * Münzen und Platz stehen untereinander. Als umbrechende Zeile
+ * berechnet, wurde die Spalte so breit wie beide Karten
+ * nebeneinander und nahm dem Profilkasten den Platz weg.
+ */
+header.arcanum-hero .arcanum-profile__identity > .arcanum-profile__metrics {
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
+    justify-content: center;
+}
+
+/* Schmal: Inhalt ist zentriert, die Knöpfe auch. */
+@media (max-width: 680px) {
+    header.arcanum-hero .arcanum-profile__actions {
+        justify-content: center;
+    }
+}
+
+/* Sehr schmal: Tür unter die Knöpfe statt daneben. */
+@media (max-width: 420px) {
+    header.arcanum-hero .arcanum-profile .arcanum-profile__identity-main {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    header.arcanum-hero .arcanum-treasure-link {
+        grid-column: 1;
+        grid-row: auto;
+        justify-self: center;
+        margin-top: 0.6rem !important;
+    }
+}

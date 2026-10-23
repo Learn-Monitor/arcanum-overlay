@@ -48,22 +48,30 @@
                     </div>
 </div>
 
-                    <button
-                        type="button"
-                        class="arcanum-button arcanum-button--secondary"
-                        id="avatar-button"
-                    
-                        aria-haspopup="dialog"
-                        aria-controls="arcanum-avatar-dialog"
-                    >
-                        Avatar bearbeiten
-                    </button>
+                    <div class="arcanum-profile__actions">
+                        <button
+                            type="button"
+                            class="arcanum-button arcanum-button--secondary"
+                            id="avatar-button"
+                            aria-haspopup="dialog"
+                            aria-controls="arcanum-avatar-dialog"
+                        >
+                            Avatar bearbeiten
+                        </button>
+
+                        <a
+                            class="arcanum-button arcanum-button--secondary arcanum-logout-button"
+                            href="/arcanum-logout.html"
+                        >
+                            Abmelden
+                        </a>
+                    </div>
 
                     <a
                         class="arcanum-treasure-link"
                         href="/results"
-                        aria-label="Schatzkammer oeffnen"
-                        title="Schatzkammer oeffnen"
+                        aria-label="Schatzkammer öffnen"
+                        title="Schatzkammer öffnen"
                     >
                         <img
                             class="arcanum-treasure-link__image"
@@ -71,12 +79,6 @@
                             alt="Schatzkammer"
                             draggable="false"
                         >
-                    </a>
-                    <a
-                        class="arcanum-button arcanum-button--secondary arcanum-logout-button"
-                        href="/arcanum-logout.html"
-                    >
-                        Abmelden
                     </a>
                 </div>
 
