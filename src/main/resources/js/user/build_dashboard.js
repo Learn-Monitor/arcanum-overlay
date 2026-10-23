@@ -143,27 +143,22 @@ function curriculumError(code, message) {
 async function fetchStudentCurriculumCatalog(subjectId) {
     if (!Number.isSafeInteger(subjectId) || subjectId <= 0)
         throw curriculumError('invalid_data', 'Die Fachdaten konnten nicht verarbeitet werden.');
-    let response;
     try {
-        response = await fetch('/my-curriculum-catalog', {
+        const body = await fetchJsonStrict('/my-curriculum-catalog', {
             method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'},
-            body:JSON.stringify({subjectId})
+            body:JSON.stringify({subjectId}), rateLimitSafe:true
         });
-    } catch {
+        return normalizeCurriculumCatalog(body);
+    } catch (error) {
+        if (error?.status === 401) throw curriculumError('unauthorized', 'Bitte erneut anmelden.');
+        if (error?.status === 403) throw curriculumError('forbidden', 'Für dieses Fach fehlt die Berechtigung.');
+        if (error?.status === 409 && error?.code === 'context_unassigned')
+            throw curriculumError(error.code, 'Für dieses Fach ist noch kein SOL-Kontext zugeordnet.');
+        if (error?.status === 409 && error?.code === 'current_semester_unavailable')
+            throw curriculumError(error.code, 'Das aktuelle Halbjahr ist noch nicht konfiguriert.');
+        if (error?.status) throw curriculumError('request_failed', 'Die Etappen konnten nicht geladen werden. Bitte erneut versuchen.');
         throw curriculumError('network', 'Die Etappen konnten nicht geladen werden. Bitte erneut versuchen.');
     }
-    if (response.status === 401) throw curriculumError('unauthorized', 'Bitte erneut anmelden.');
-    if (response.status === 403) throw curriculumError('forbidden', 'Für dieses Fach fehlt die Berechtigung.');
-    let body;
-    try { body = await response.json(); } catch { /* Never show raw response bodies. */ }
-    if (!response.ok) {
-        if (response.status === 409 && body?.error === 'context_unassigned')
-            throw curriculumError(body.error, 'Für dieses Fach ist noch kein SOL-Kontext zugeordnet.');
-        if (response.status === 409 && body?.error === 'current_semester_unavailable')
-            throw curriculumError(body.error, 'Das aktuelle Halbjahr ist noch nicht konfiguriert.');
-        throw curriculumError('request_failed', 'Die Etappen konnten nicht geladen werden. Bitte erneut versuchen.');
-    }
-    return normalizeCurriculumCatalog(body);
 }
 
 function normalizeCurriculumCatalog(body) {
@@ -178,8 +173,11 @@ function normalizeCurriculumCatalog(body) {
     if (!body || !integer(body.semesterId) || body.semesterId === 0 || !body.progress || !body.planned ||
         body.progress.semesterId !== body.semesterId) fail();
     for (const totals of [body.planned, body.progress]) {
+        const nansteinTokens = totals === body.progress ? (totals.nansteinTokens ?? 0) : 0;
         if (!['centralTokens','flexibleTokens','totalTokens'].every(key => integer(totals[key])) ||
-            totals.centralTokens + totals.flexibleTokens !== totals.totalTokens || totals.totalTokens > 105) fail();
+            !integer(nansteinTokens) ||
+            totals.centralTokens + totals.flexibleTokens + nansteinTokens !== totals.totalTokens ||
+            (totals === body.planned && totals.totalTokens > 105)) fail();
     }
     if (body.planned.regularLimit !== 100 || body.planned.hardLimit !== 105) fail();
     const result = {...body};

@@ -73,6 +73,41 @@ test('keeps flexible maximums separate from effective earned awards', () => {
     assert.equal(result.progress.flexibleTokens, 5);
 });
 
+test('accepts a completed Nanstein in the subject progress total', () => {
+    const result = normalizer()(catalog({
+        progress: {
+            centralTokens: 0, flexibleTokens: 0, nansteinTokens: 7, totalTokens: 7,
+            completedNansteine: [{id: 91, name: 'Synthetischer Nanstein', tokens: 7}], semesterId: 1
+        }
+    }));
+    assert.equal(result.progress.nansteinTokens, 7);
+    assert.equal(result.progress.totalTokens, 7);
+    assert.equal(result.progress.completedNansteine[0].id, 91);
+});
+
+test('keeps Nanstein rewards above the regular 105-coin curriculum cap visible', () => {
+    const result = normalizer()(catalog({
+        centralTasks: [{id: 11, name: 'Zentrale Etappe', tokens: 100, niveau: 1,
+            topicId: 10, topicName: 'Zentral', completed: true}],
+        flexibleTasks: [],
+        planned: {centralTokens: 100, flexibleTokens: 0, totalTokens: 100,
+            unreleasedCentralTokens: 0, regularLimit: 100, hardLimit: 105},
+        progress: {centralTokens: 100, flexibleTokens: 0, nansteinTokens: 7, totalTokens: 107, semesterId: 1}
+    }));
+    assert.equal(result.progress.totalTokens, 107);
+});
+
+test('rejects a Nanstein total that is inconsistent with the component totals', () => {
+    assert.throws(() => normalizer()(catalog({
+        progress: {centralTokens: 0, flexibleTokens: 0, nansteinTokens: 7, totalTokens: 0, semesterId: 1}
+    })));
+});
+
+test('routes dashboard catalog requests through the shared 429-safe fetch helper', () => {
+    assert.match(source, /fetchJsonStrict\('\/my-curriculum-catalog'/);
+    assert.match(source, /rateLimitSafe:true/);
+});
+
 test('formats open and completed variable stages with maximum context', () => {
     const format = displayHelpers().formatCurriculumTaskCoins;
     assert.equal(format({tokens: 4, variableTokens: true, completed: false}), 'bis zu 4 Münzen');
