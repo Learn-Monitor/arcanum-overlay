@@ -63,7 +63,7 @@ function renderStudentProfile(studentData) {
     const rankCard = document.getElementById("student-rank")?.closest(".arcanum-score-card");
     rankCard?.classList.remove("arcanum-score-card--rank-first", "arcanum-score-card--rank-second", "arcanum-score-card--rank-third");
     if (ranking?.rankAvailable && (ranking?.inTopFifty ?? ranking?.inTopTen) && Number.isInteger(ranking.rank) && ranking.rank >= 1 && ranking.rank <= 50) {
-        const total = Number.isInteger(ranking.rankTotal) ? `/${ranking.rankTotal}` : '';
+        const total = Number.isInteger(ranking.rankLimit) ? `/${ranking.rankLimit}` : '/50';
         setText("student-rank", `Platz ${ranking.rank}${total}`);
         if (rankCard && ranking.rank <= 3) rankCard.classList.add(`arcanum-score-card--rank-${['first','second','third'][ranking.rank - 1]}`);
     } else {

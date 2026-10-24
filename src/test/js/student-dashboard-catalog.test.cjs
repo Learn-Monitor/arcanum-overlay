@@ -139,6 +139,9 @@ test('does not render the current grade in the student dashboard while keeping t
 test('uses the Top-50 status without changing the ranking payload contract', () => {
     assert.match(source, /ranking\?\.inTopFifty/);
     assert.match(source, /Du bist nicht in den Top 50/);
+    assert.match(source, /ranking\.rankLimit/);
+    assert.doesNotMatch(source, /ranking\.rankTotal/);
+    assert.match(source, /`\/\$\{ranking\.rankLimit\}`/);
 });
 
 test('formats open and completed variable stages with maximum context', () => {
