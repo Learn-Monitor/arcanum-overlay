@@ -113,7 +113,6 @@ async function createSubjectModel(subject, studentData) {
     }
 
     const coins = catalog.progress.totalTokens;
-    const currentGrade = calculateCurrentGrade(coins);
     const nextGrade = calculateNextGrade(coins);
 
     return {
@@ -127,7 +126,6 @@ async function createSubjectModel(subject, studentData) {
         completedTasks: completedForSubject,
         lockedTasks: lockedForSubject,
         notPassedTasks,
-        currentGrade,
         nextGrade,
         forecast: catalog.forecast,
         requests: safeArray(
@@ -341,12 +339,12 @@ function createSubjectCard(subject) {
         : "Noch kein Thema zugewiesen";
 
     const nextGradeText = subject.nextGrade
-        ? `${subject.nextGrade.remaining} Münzen bis Note ${subject.nextGrade.grade}`
-        : "Höchste Notenstufe erreicht";
+        ? `${subject.nextGrade.remaining} Münzen bis zum nächsten Fortschrittsziel`
+        : "Fortschritt vollständig erreicht";
     const forecast = subject.forecast || {available:false,
         message:'Noch keine belastbare Prognose. Es liegen bisher zu wenige bestätigte Leistungen vor.'};
     const forecastDetails = forecast.available
-        ? `<span>Momentan verdienst du <mark class="arcanum-forecast-value"><img src="/arcanum-coin-a5c34f85b21b75d5.webp" alt="">${formatGermanDecimal(forecast.paceCoinsPerDay)}</mark> Münzen pro Tag. Es sind noch <mark class="arcanum-forecast-value">${forecast.remainingDays} Tage</mark> bis zum Zeugnis. Damit würdest du voraussichtlich auf <mark class="arcanum-forecast-value"><img src="/arcanum-coin-a5c34f85b21b75d5.webp" alt="">${forecast.forecastCoins}</mark> Münzen und die <mark class="arcanum-forecast-value">Note ${forecast.forecastGrade}</mark> kommen.</span>
+        ? `<span>Momentan verdienst du <mark class="arcanum-forecast-value"><img src="/arcanum-coin-a5c34f85b21b75d5.webp" alt="">${formatGermanDecimal(forecast.paceCoinsPerDay)}</mark> Münzen pro Tag. Es sind noch <mark class="arcanum-forecast-value">${forecast.remainingDays} Tage</mark> bis zum Zeugnis. Damit würdest du voraussichtlich auf <mark class="arcanum-forecast-value"><img src="/arcanum-coin-a5c34f85b21b75d5.webp" alt="">${forecast.forecastCoins}</mark> Münzen kommen.</span>
            <small>${escapeHtml(forecast.message || '')} ${escapeHtml(forecastMotivation(forecast.forecastGrade))}</small>`
         : `<span>Sammle noch ein paar bestätigte Etappen. Dann können wir eine Prognose für dein Zeugnis berechnen.</span>`;
 
@@ -1949,26 +1947,6 @@ function calculateCoins(tasks) {
         (sum, task) => sum + calculateTaskCoins(task),
         0
     );
-}
-
-function calculateCurrentGrade(coins) {
-    const reachedGrade = [...ARCANUM_GRADES]
-        .reverse()
-        .find(item => coins >= item.coins);
-
-    if (!reachedGrade) {
-        return {
-            grade: 6,
-            display: "Note 6 · ungenügend",
-            cssClass: "arcanum-current-grade--6"
-        };
-    }
-
-    return {
-        grade: reachedGrade.grade,
-        display: `Note ${reachedGrade.grade} · ${reachedGrade.label}`,
-        cssClass: `arcanum-current-grade--${reachedGrade.grade}`
-    };
 }
 
 function calculateNextGrade(coins) {
