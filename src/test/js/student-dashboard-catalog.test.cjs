@@ -52,6 +52,25 @@ test('accepts a catalog with unreleased flexible planned stages', () => {
     assert.equal(result.planned.flexibleTokens, 21);
 });
 
+test('keeps a subject card loadable when Nanstein coins lift the earned total above 105', () => {
+    const result = normalizer()(catalog({
+        centralTasks: [{ id: 11, name: 'Zentrale Etappe', tokens: 100, niveau: 1,
+            topicId: 10, topicName: 'Zentral', completed: true }],
+        flexibleTasks: [{ id: 21, name: 'Flexible Etappe', tokens: 5,
+            topicId: 20, topicName: 'Flexibel', completed: true, awardedTokens: 5 }],
+        planned: { centralTokens: 100, flexibleTokens: 5, totalTokens: 105,
+            unreleasedCentralTokens: 0, regularLimit: 100, hardLimit: 105 },
+        progress: { centralTokens: 100, flexibleTokens: 5, nansteinTokens: 7,
+            totalTokens: 112, completedNansteine: [{id: 91, name: 'Zusatz', tokens: 7}], semesterId: 1 }
+    }));
+    assert.equal(result.progress.totalTokens, 112);
+    assert.equal(result.progress.nansteinTokens, 7);
+});
+
+test('uses the semester assignment endpoint for actual WPF names', () => {
+    assert.match(source, /fetchMyManagedSubjects\(\)/);
+});
+
 test('keeps flexible maximums separate from effective earned awards', () => {
     const result = normalizer()(catalog({
         flexibleTasks: [

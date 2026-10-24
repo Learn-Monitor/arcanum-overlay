@@ -14,7 +14,7 @@ async function initialiseArcanumDashboard() {
     try {
         const [studentData, subjects] = await Promise.all([
             fetchMyData(),
-            fetchMySubjects()
+            fetchMyManagedSubjects()
         ]);
 
         if (!Array.isArray(subjects)) throw Error("Invalid subject response");
@@ -179,6 +179,8 @@ function normalizeCurriculumCatalog(body) {
             totals.centralTokens + totals.flexibleTokens + nansteinTokens !== totals.totalTokens ||
             (totals === body.planned && totals.totalTokens > 105)) fail();
     }
+    const nansteinTokens = body.progress.nansteinTokens === undefined ? 0 : body.progress.nansteinTokens;
+    if (body.progress.completedNansteine !== undefined && !Array.isArray(body.progress.completedNansteine)) fail();
     if (body.planned.regularLimit !== 100 || body.planned.hardLimit !== 105) fail();
     const result = {...body};
     for (const kind of ['central','flexible']) {
