@@ -49,6 +49,13 @@ test('external login script still initializes the quote and submit flow', () => 
     assert.match(source, /safeNext\(nextInput\.value\)/);
 });
 
+test('login follows the server-selected same-origin destination', () => {
+    const source = resource('main/resources/js/public/arcanum-login.js');
+    assert.match(source, /new URL\(response\.url, window\.location\.href\)/);
+    assert.match(source, /serverDestination\.origin === window\.location\.origin/);
+    assert.match(source, /serverDestination\.pathname/);
+});
+
 test('dynamic dashboard text is escaped before HTML template insertion', () => {
     const source = resource('main/resources/js/user/build_dashboard.js');
     assert.match(source, /escapeHtml\(subject\.name\)/);

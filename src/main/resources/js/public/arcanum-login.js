@@ -206,7 +206,15 @@
                 if (response.ok) {
                     statusBox.textContent = "Anmeldung erfolgreich – du wirst weitergeleitet.";
                     statusBox.classList.add("is-success");
-                    window.location.href = safeNext(nextInput.value) || "/dashboard";
+                    // The server owns the post-login destination. In particular,
+                    // teacher+admin accounts must first reach /select-mode.
+                    // The validated form target remains only a same-origin
+                    // fallback for unusual responses without a usable URL.
+                    const serverDestination = new URL(response.url, window.location.href);
+                    const destination = serverDestination.origin === window.location.origin
+                        ? `${serverDestination.pathname}${serverDestination.search}${serverDestination.hash}`
+                        : (safeNext(nextInput.value) || "/dashboard");
+                    window.location.href = destination;
                     return;
                 }
 
