@@ -8,6 +8,10 @@ const source = fs.readFileSync(
     path.join(__dirname, '../../main/resources/js/user/build_dashboard.js'),
     'utf8'
 );
+const dashboardHtml = fs.readFileSync(
+    path.join(__dirname, '../../main/resources/html/user/dashboard.html'),
+    'utf8'
+);
 
 function normalizer() {
     const context = { console };
@@ -69,6 +73,23 @@ test('keeps a subject card loadable when Nanstein coins lift the earned total ab
 
 test('uses the semester assignment endpoint for actual WPF names', () => {
     assert.match(source, /fetchMyManagedSubjects\(\)/);
+});
+
+test('keeps the student dashboard subject order when the endpoint returns only id and name', () => {
+    const context = displayHelpers();
+    const names = ['Bildende Kunst', 'Religion/Ethik', 'Deutsch', 'Mathematik'];
+    names.sort((left, right) => context.subjectDisplayOrder(left) - context.subjectDisplayOrder(right));
+    assert.deepEqual(names, ['Deutsch', 'Mathematik', 'Religion/Ethik', 'Bildende Kunst']);
+});
+
+test('shows the canonical coin-to-grade distribution in the student dashboard header', () => {
+    assert.match(dashboardHtml, /class="arcanum-floating-grades"/);
+    assert.match(dashboardHtml, /Münzen &amp; Noten/);
+    for (const label of ['ab 90', 'ab 75', 'ab 60', 'ab 40', 'ab 20', 'unter 20']) {
+        assert.match(dashboardHtml, new RegExp(label.replace(' ', '\\s+')));
+    }
+    assert.match(dashboardHtml, /Note 1 · sehr gut/);
+    assert.match(dashboardHtml, /Note 6 · ungenügend/);
 });
 
 test('keeps flexible maximums separate from effective earned awards', () => {

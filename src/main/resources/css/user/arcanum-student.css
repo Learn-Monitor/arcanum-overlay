@@ -1968,6 +1968,10 @@ select {
     --grade-color: #c5765b;
 }
 
+.arcanum-grade-pill:nth-child(6) {
+    --grade-color: #a76662;
+}
+
 .arcanum-grade-pill__coins {
     display: inline-flex;
     gap: 0.3rem;

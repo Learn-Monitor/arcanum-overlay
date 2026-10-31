@@ -8,6 +8,21 @@ const ARCANUM_GRADES = [
     { grade: 1, label: "sehr gut", coins: 90 }
 ];
 
+function subjectDisplayOrder(value) {
+    const normalized = String(value || '').trim().toLowerCase();
+    if (normalized === 'd' || normalized.includes('deutsch')) return 1;
+    if (normalized === 'e' || normalized.includes('englisch')) return 2;
+    if (normalized === 'm' || normalized.includes('mathematik')) return 3;
+    if (normalized === 'gl' || normalized.includes('gesellschaft')) return 4;
+    if (normalized.includes('naturwissenschaft') || /(^|[^a-z])nawi([^a-z]|$)/.test(normalized)) return 5;
+    if (normalized.includes('wpf')) return 6;
+    if (normalized.includes('relig') || normalized.includes('ethik') || /^reli\d+/.test(normalized)) return 7;
+    if (normalized.includes('sport')) return 8;
+    if (normalized.includes('musik')) return 9;
+    if (normalized.includes('bildende kunst') || /(^|[^a-z])bk([^a-z]|$)/.test(normalized)) return 10;
+    return 1000;
+}
+
 document.addEventListener("DOMContentLoaded", initialiseArcanumDashboard);
 
 async function initialiseArcanumDashboard() {
@@ -22,7 +37,8 @@ async function initialiseArcanumDashboard() {
 
         const subjectModels = await Promise.all(
             [...(Array.isArray(subjects) ? subjects : [])]
-                .sort((a, b) => (Number(a.displayOrder ?? 1000) - Number(b.displayOrder ?? 1000)) ||
+                .sort((a, b) => (Number(a.displayOrder ?? subjectDisplayOrder(a.displayName || a.name)) -
+                    Number(b.displayOrder ?? subjectDisplayOrder(b.displayName || b.name))) ||
                     String(a.displayName || a.name).localeCompare(String(b.displayName || b.name), 'de'))
                 .map(
                 subject => createSubjectModel(subject, studentData)
