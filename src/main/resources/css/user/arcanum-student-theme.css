@@ -514,6 +514,28 @@ body.arcanum-page::before {
 
 .arcanum-task-dialog__panel {
     padding: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
+
+.arcanum-task-dialog__header,
+.arcanum-task-dialog__summary {
+    flex: 0 0 auto;
+}
+
+.arcanum-task-dialog__content {
+    align-content: start;
+    grid-auto-rows: max-content;
+    min-height: 0 !important;
+    flex: 1 1 auto;
+    overflow-x: hidden;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+.arcanum-task-dialog__content > .arcanum-task-group {
+    overflow: visible;
 }
 
 .arcanum-task-dialog__header {

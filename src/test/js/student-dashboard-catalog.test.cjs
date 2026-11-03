@@ -25,7 +25,21 @@ function normalizer() {
 function displayHelpers() {
     const context = {
         console,
-        document: { readyState: 'loading', addEventListener() {}, querySelector() { return null; } },
+        document: {
+            readyState: 'loading',
+            addEventListener() {},
+            querySelector() { return null; },
+            createElement() {
+                return {
+                    _text: '',
+                    set textContent(value) { this._text = String(value); },
+                    get innerHTML() {
+                        return this._text.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+                    }
+                };
+            }
+        },
         window: { setTimeout() { return 0; } }
     };
     vm.createContext(context);
@@ -269,4 +283,28 @@ test('sorts not-passed stages by urgency', () => {
         {name: 'Zweimal', assessmentStatus: 'FAILED_TWICE', niveau: 1}
     ].sort(context.compareNotPassedTasks);
     assert.deepEqual(stages.map(stage => stage.assessmentStatus), ['LOCKED', 'FAILED_TWICE', 'FAILED_ONCE']);
+});
+
+test('renders FAILED_TWICE in the not-passed dialog as 2× nicht bestanden', () => {
+    const row = displayHelpers().createTaskDetailRowHtml({
+        id: 42,
+        name: 'Synthetische Etappe',
+        tokens: 5,
+        niveau: 1,
+        assessmentStatus: 'FAILED_TWICE',
+        completed: false
+    }, 'not-passed');
+    assert.match(row, /2× nicht bestanden/);
+});
+
+test('keeps the theme dialog panel bounded and its content scrollable', () => {
+    const theme = fs.readFileSync(
+        path.join(__dirname, '../../main/resources/css/user/arcanum-student-theme.css'),
+        'utf8'
+    );
+    const dialogRules = theme.slice(theme.indexOf('.arcanum-task-dialog__panel {'));
+    assert.match(dialogRules, /\.arcanum-task-dialog__panel\s*\{[^}]*overflow:\s*hidden\s*!important/s);
+    assert.match(dialogRules, /\.arcanum-task-dialog__content\s*\{[^}]*min-height:\s*0\s*!important/s);
+    assert.match(dialogRules, /\.arcanum-task-dialog__content\s*\{[^}]*overflow-y:\s*auto\s*!important/s);
+    assert.match(dialogRules, /overscroll-behavior:\s*contain/);
 });
